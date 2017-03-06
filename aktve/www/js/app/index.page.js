@@ -1,4 +1,10 @@
+// IndexPage is the class representing the model and implementing the controller
+// functions for the "index" page.
 class IndexPage {
+    Init() {
+
+    }
+
     updateMap() {
         // Generate the Google Static Maps API URL
         // (TODO: We need to use an API key with the "&key=..." addition to the
@@ -17,8 +23,10 @@ class IndexPage {
     }
 }
 
+// Instantiate a model/controller for the page
 let index_page = new IndexPage();
 
+// Perform necessary steps once the page is loaded.
 myApp.onPageInit('index', function (page) {
-
+    index_page.Init();
 })
