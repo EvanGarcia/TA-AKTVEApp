@@ -1,0 +1,74 @@
+﻿<!-- Top Navbar-->
+<div class="navbar">
+    <div class="navbar-inner">
+        <!--Back button-->
+        <div class="left">
+            <a href="#" class="back link">
+                <i class="icon icon-back"></i>
+                <span>Back</span>
+            </a>
+        </div>
+
+        <div class="center sliding">AKTVE</div>
+
+        <!--Button to user's settings-->
+        <!--TODO: Make this actually go somewhere.-->
+        <div class="right">
+            <a href="#" onclick="alert('TODO: Make this actually go somewhere.');" id="SettingsButton" class="link icon-only"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+<div class="pages">
+    <div data-page="profile" class="page">
+        <div class="page-content">
+            <!--User Info-->
+            <div class="content-block">
+                <div id="ProfileName" class="app-profile-name _floatleft">????, ??</div>
+                <div class="app-profile-details _floatright">
+                    <span id="ProfileDistance">????</span>
+                    <span id="ProfileLastActive">????</span>
+                </div>
+                <div class="_clearfix"></div>
+            </div>
+
+            <!--User Profile Pictures-->
+            <div class="content-block">
+                <div class="content-block-inner">
+                    <div class="swiper-container" id="ProfilePicturesSwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img data-src="img/samples/sam1.jpg" id="ProfilePicture1" class="swiper-lazy app-profile-picture">
+                                <div class="preloader"></div>
+                            </div>
+                            <div class="swiper-slide">
+                                <img data-src="img/samples/sam2.jpg" id="ProfilePicture2" class="swiper-lazy app-profile-picture">
+                                <div class="preloader"></div>
+                            </div>
+                            <div class="swiper-slide">
+                                <img data-src="img/samples/sam3.jpg" id="ProfilePicture3" class="swiper-lazy app-profile-picture">
+                                <div class="preloader"></div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!--User Interests-->
+            <div class="content-block-title">Interests</div>
+            <div class="content-block">
+                <div class="content-block-inner">
+                    <p id="ProfileInterests">????, ????, ????</p>
+                </div>
+            </div>
+
+            <!--User Bio-->
+            <div class="content-block-title">Bio</div>
+            <div class="content-block">
+                <div class="content-block-inner">
+                    <p id="ProfileBio">????</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
