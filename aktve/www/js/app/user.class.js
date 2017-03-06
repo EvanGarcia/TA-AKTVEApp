@@ -54,9 +54,19 @@ class User {
     get latitude() {
         return this._latitude;
     }
+    set latitude(latitude) {
+        if (!isNaN(latitude)) {
+            this._latitude = latitude;
+        }
+    }
 
     get longitude() {
         return this._longitude;
+    }
+    set longitude(longitude) {
+        if (!isNaN(longitude)) {
+            this._longitude = longitude;
+        }
     }
 
     get last_active() {

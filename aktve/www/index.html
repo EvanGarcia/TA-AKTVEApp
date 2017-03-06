@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+ ﻿<!DOCTYPE html>
 <html>
 
     <head>
@@ -18,12 +18,13 @@
 
         <!-- Path's to custom app styles-->
         <link rel="stylesheet" href="css/my-app.css">
+        <link rel="stylesheet" href="css/app/index.page.css">
         <link rel="stylesheet" href="css/app/profile.page.css">
         <link rel="stylesheet" href="css/app/swipe.page.css">
 
     </head>
 
-    <body>
+    <body class="theme-black">
 
         <!-- Status bar overlay for fullscreen mode-->
         <div class="statusbar-overlay"></div>
@@ -78,6 +79,15 @@
                                     <p>Couple of worlds here because my app is so awesome!</p>
                                     <p>Duis sed erat ac eros ultrices pharetra id ut tellus. Praesent rhoncus enim ornare ipsum aliquet ultricies. Pellentesque sodales erat quis elementum sagittis. <a href="swipe.html">SWIPE!</a> <a href="chat.html">CHAT!</a></p>
                                 </div>
+                            </div>
+
+                            <div class="content-block-title">Location</div>
+                            <div class="content-block">
+                                <div id="IndexLocationSearch" class="_center">
+                                    <p>Hold on while we figure out where you are!</p>
+                                    <span class="preloader"></span>
+                                </div>
+                                <img data-src="" id="IndexLocationMap" class="app-geolocation-map">
                             </div>
 
                             <div class="content-block-title">What about simple navigation?</div>
@@ -136,6 +146,7 @@
 
         <script type="text/javascript" src="js/app/main.js"></script>
 
+        <script type="text/javascript" src="js/app/index.page.js"></script>
         <script type="text/javascript" src="js/app/profile.page.js"></script>
         <script type="text/javascript" src="js/app/swipe.page.js"></script>
         <script type="text/javascript" src="js/app/chat.page.js"></script>
