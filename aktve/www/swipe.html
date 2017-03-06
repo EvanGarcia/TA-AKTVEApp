@@ -1,63 +1,41 @@
-﻿<div class="views">
-    <!-- Your main view, should have "view-main" class-->
-    <div class="view view-main">
-        <!-- Top Navbar-->
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="left">
-                    <a href="#" class="link">
-                        <i class="icon icon-back"></i>
-                        <span>Settings</span>
-                    </a>
-                </div>
-                <div class="center">AKTVE</div>
-                <div class="right">
-                    <a href="#" class="link">
-                        <i class="icon icon-bars"></i>
-                        <span>Matches</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
-            <!-- Page, data-page contains page name-->
-            <div data-page="index" class="page">
-                <!-- Scrollable page content-->
-                <div class="page-content">
-                    <div class="content-block">
-                        <div class="content-block-inner">
-                            <p>
-                                <a href="about.html" class="item-link">
-                                    <img src="http://file.instiz.net/data/file/20130904/1/b/1/1b10a43095e026d01d28002c13db50e6" id="pic" width="100%" class="lazy lazy-fadeIn">
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="content-block">
-                        <div class="row">
-                            <div class="col-50"><a class="button" onclick="myFunction1()">Dislike</a></div>
-                            <div class="col-50"><a class="button" onclick="myFunction2()">Like</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--Top Navbar-->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <!--Button to user's profile -->
+            <a href="profile.html" class="link icon-only"><i class="fa fa-user" aria-hidden="true"></i></a>
         </div>
 
-        <!--Script for the Pictures-->
-        <script>
-            function myFunction1() {
-                document.getElementById('pic').setAttribute( 'src', 'http://hdwallpapershdpics.com/wp-content/uploads/2016/08/V4Doic.jpg' );
-            }
-            function myFunction2() {
-                document.getElementById('pic').setAttribute('src', 'https://pbs.twimg.com/profile_images/483129073208528896/3_wpD7SL.jpeg');
-            }
-        </script>
-        <!--End Script-->
+        <div class="center sliding">AKTVE</div>
 
-        <!-- Bottom Toolbar-->
-        <div class="toolbar">
-            <div class="toolbar-inner"><a href="#" class="link">Go Back</a><a href="#" class="link">Bio</a></div>
+        <div class="right">
+            <!--Button to the user's match conversations -->
+            <a href="#" class="link icon-only"><i class="fa fa-comment" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+
+<!--Pages-->
+<div class="pages navbar-through toolbar-through">
+    <!--Swipe Page-->
+    <div data-page="swipe" class="page">
+        <div class="page-content">
+            <!--Profile Picture-->
+            <div class="content-block">
+                <div class="content-block-inner">
+                        <a href="profile.html" class="item-link">
+                            <img data-src="http://file.instiz.net/data/file/20130904/1/b/1/1b10a43095e026d01d28002c13db50e6" id="SwipePicture" class="lazy lazy-fadeIn app-swipe-picture">
+                        </a>
+                </div>
+            </div>
+
+            <!--Like/Dislike Buttons-->
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-50"><a class="button" id="SwipeLikeButton"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Dislike</a></div>
+                    <div class="col-50"><a class="button" id="SwipeDislikeButton"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like</a></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

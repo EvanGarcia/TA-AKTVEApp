@@ -3,10 +3,11 @@
 // (TODO: Finish this class. Possibly add in methods that actually will pull
 // data about the user from the server.)
 class User {
-    constructor(name, age, interests, bio, latitude, longitude, last_active, is_me) {
+    constructor(id, name, age, interests, bio, latitude, longitude, last_active, is_me) {
         // If no arguments were passed to this constructor, set the user up as
         // the default demo user
         if (arguments.length === 0) {
+            this._id = 0;
             this._name = "Michelle";
             this._age = 63;
             this._interests = [new PersonalInterest("Hiking", 2.5), new PersonalInterest("Lifting", 2.5), new PersonalInterest("Skiing", 2.5)];
@@ -19,6 +20,7 @@ class User {
             return;
         }
 
+        this._id = id;
         this._name = name;
         this._age = age;
         this._interests = interests;
@@ -27,6 +29,10 @@ class User {
         this._longitude = longitude;
         this._last_active = last_active;
         this._is_me = is_me;
+    }
+
+    get id() {
+        return this._id;
     }
 
     get name() {

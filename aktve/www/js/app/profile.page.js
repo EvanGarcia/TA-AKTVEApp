@@ -13,7 +13,7 @@ myApp.onPageInit('profile', function (page) {
     // from the server. For now, initializing an empty User object results in
     // one with demo data.)
     let user = new User();
-    user.is_me = true; // For demo purposes, pretend that this profile is for the current user
+    user.is_me = true; // For now, pretend like this user is us
 
     // If this profile is not the current user's, hide the settings button
     if (!user.is_me) {

@@ -2,10 +2,11 @@
     font-size: 3em;
 }
 .app-profile-details {
-    margin: 0.5em 0 0 0;
+    margin: 0.75em 0 0 0;
 }
 .app-profile-details > span {
     display: block;
+    text-align: right;
 }
 
 .app-profile-picture {
