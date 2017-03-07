@@ -2,7 +2,7 @@
 // functions for the "index" page.
 class IndexPage {
     Init() {
-
+        
     }
 
     updateMap() {

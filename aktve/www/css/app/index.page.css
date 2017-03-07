@@ -1,4 +1,23 @@
-.app-geolocation-map {
+.app-index-geolocation-map {
     width: 100%;
     border-radius: 8px;
+}
+
+.app-login-loginlist {
+    display: block;
+    padding: 35% 0 0 0;
+}
+.app-login-loginwithfacebook-image {
+    width: 100%;
+}
+
+.app-bgvid {
+    z-index: -2;
+    background: url("..images/background.jpg") no-repeat;
+    background-size: cover;
+}
+.app-bgfilter {
+    z-index: -1;
+    background-color: #000000;
+    opacity: 0.25;
 }

@@ -8,6 +8,10 @@ $(document).on("deviceready", function() {
     // Start watching the user's location
     console.log("navigator.geolocation is now watching the user's location");
     var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
+
+    // Pop open the login screen
+    // (TODO: Only do this when necessary.)
+    myApp.loginScreen("#LoginScreen", false);
 })
 
 // A callback for whenever the user's location changes.
