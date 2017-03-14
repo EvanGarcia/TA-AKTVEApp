@@ -32,13 +32,18 @@ class ProfilePage {
         $("#ProfileLastActive").html("Last Active " + user.last_active);
         let interests_string = "";
         for (var i = 0; i < user.interests.length; i++) {
-            interests_string += user.interests[i].name;
-            if (i < (user.interests.length - 1)) {
-                interests_string += ", ";
-            }
+            interests_string += "<div class=\"chip\">\n";
+            interests_string += "\t<div class=\"chip-media bg-gray\">" + user.interests[i].experience + "</div>\n";
+            interests_string += "\t<div class=\"chip-label\">" + user.interests[i].name + "</div>\n";
+            interests_string += "</div>\n";
         }
         $("#ProfileInterests").html(interests_string);
         $("#ProfileBio").html(user.bio);
+
+        // Set the user location map on the profile page
+        // (TODO: Use an actual Google Static Maps API key here.)
+        var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + user.latitude + "," + user.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + user.latitude + "," + user.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;
+        $("#ProfileLocationMap").attr("src", google_map_url);
     }
 }
 

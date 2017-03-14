@@ -20,20 +20,70 @@
     <!--Swipe Page-->
     <div data-page="swipe" class="page">
         <div class="page-content">
-            <!--Profile Picture-->
-            <div class="content-block">
-                <div class="content-block-inner">
+            <!--Profile-->
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-content-inner">
                         <a href="profile.html" class="item-link">
                             <img data-src="http://file.instiz.net/data/file/20130904/1/b/1/1b10a43095e026d01d28002c13db50e6" id="SwipePicture" class="lazy lazy-fadeIn app-swipe-picture">
                         </a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div id="SwipeInterests">
+                        <div class="chip">
+                            <div class="chip-media bg-gray">2</div>
+                            <div class="chip-label">Skiing</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">5</div>
+                            <div class="chip-label">Lumberjacking</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">3</div>
+                            <div class="chip-label">Hiking</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">5</div>
+                            <div class="chip-label">Patriotism</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">1</div>
+                            <div class="chip-label">Lifting</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">2</div>
+                            <div class="chip-label">Swimming</div>
+                        </div>
+                        <div class="chip">
+                            <div class="chip-media bg-gray">3</div>
+                            <div class="chip-label">Biking</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div id="SwipeDetails">
+                        <div class="chip bg-red">
+                            <div class="chip-media"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
+                            <div class="chip-label">Men</div>
+                        </div>
+                        <div class="chip bg-blue">
+                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
+                            <div class="chip-label">Men</div>
+                        </div>
+                        <div class="chip bg-blue">
+                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
+                            <div class="chip-label">Women</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!--Like/Dislike Buttons-->
             <div class="content-block">
                 <div class="row">
-                    <div class="col-50"><a class="button" id="SwipeLikeButton"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Dislike</a></div>
-                    <div class="col-50"><a class="button" id="SwipeDislikeButton"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like</a></div>
+                    <div class="col-50"><a class="button app-swipe-button" id="SwipeLikeButton"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></div>
+                    <div class="col-50"><a class="button app-swipe-button" id="SwipeDislikeButton"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></div>
                 </div>
             </div>
         </div>

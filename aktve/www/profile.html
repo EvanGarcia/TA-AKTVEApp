@@ -9,12 +9,11 @@
             </a>
         </div>
 
-        <div class="center sliding">AKTVE</div>
+        <div class="center sliding">Profile</div>
 
         <!--Button to user's settings-->
-        <!--TODO: Make this actually go somewhere.-->
         <div class="right">
-            <a href="#" onclick="alert('TODO: Make this actually go somewhere.');" id="SettingsButton" class="link icon-only"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            <a href="settings.html" id="SettingsButton" class="link icon-only"><i class="fa fa-cog" aria-hidden="true"></i></a>
         </div>
     </div>
 </div>
@@ -26,18 +25,8 @@
     profile.page.js for more info.-->
     <div data-page="profile" class="page">
         <div class="page-content">
-            <!--User Info-->
-            <div class="content-block">
-                <div id="ProfileName" class="app-profile-name _floatleft">????, ??</div>
-                <div class="app-profile-details _floatright">
-                    <span id="ProfileDistance">????</span>
-                    <span id="ProfileLastActive">????</span>
-                </div>
-                <div class="_clearfix"></div>
-            </div>
-
             <!--User Profile Pictures-->
-            <div class="content-block">
+            <div class="content-block contacts-block">
                 <div class="content-block-inner">
                     <div class="swiper-container" id="ProfilePicturesSwiper">
                         <div class="swiper-wrapper">
@@ -59,12 +48,45 @@
                 </div>
             </div>
 
+            <!--User Info-->
+            <div class="content-block">
+                <div id="ProfileName" class="app-profile-name _floatleft">????, ??</div>
+                <div class="app-profile-details _floatright">
+                    <span id="ProfileDistance">????</span>
+                    <span id="ProfileLastActive">????</span>
+                </div>
+                <div class="_clearfix"></div>
+            </div>
+
             <!--User Interests-->
             <div class="content-block-title">Interests</div>
             <div class="content-block">
                 <div class="content-block-inner">
-                    <p id="ProfileInterests">????, ????, ????</p>
+                    <div id="ProfileInterests">????, ????, ????</div>
                 </div>
+            </div>
+
+            <!--User Tags-->
+            <div class="content-block-title">Tags</div>
+            <div class="content-block">
+                <div class="content-block-inner">
+                    <div id="ProfileTags">
+                        <div class="chip bg-blue">
+                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
+                            <div class="chip-label">Men</div>
+                        </div>
+                        <div class="chip bg-blue">
+                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
+                            <div class="chip-label">Women</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--User Location-->
+            <div class="content-block-title">Location</div>
+            <div class="content-block">
+                <img src="" id="ProfileLocationMap" class="app-profile-geolocation-map">
             </div>
 
             <!--User Bio-->

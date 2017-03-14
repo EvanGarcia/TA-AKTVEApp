@@ -70,9 +70,8 @@
 
                 <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
                 <div class="pages navbar-through toolbar-through">
-                    <!-- Page, data-page contains page name-->
                     <div data-page="index" class="page">
-                        <!-- Scrollable page content-->
+                        <!--
                         <div class="page-content">
                             <div class="content-block-title">Welcome To My Awesome App</div>
                             <div class="content-block">
@@ -125,6 +124,7 @@
                                 </div>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
             <div class="view">
               <div class="page">
                 <div class="page-content login-screen-content">
-                    <video playsinline autoplay muted loop poster="assets/images/background.jpg" id="LoginBackgroundVideo" class="app-bgvid _fillpage _unselectable">
+                    <video playsinline webkit-playsinline autoplay muted loop poster="img/background.jpg" id="LoginBackgroundVideo" class="app-bgvid _fillpage _unselectable">
                         <source src="img/background.mp4" type="video/mp4">
                     </video>
 
@@ -195,6 +195,8 @@
 
         <!-- Load in custom JavaScript-->
         <script type="text/javascript" src="js/my-app.js"></script>
+
+        <script type="text/javascript" src="js/app/conf.js"></script>
 
         <script type="text/javascript" src="js/app/personalinterest.class.js"></script>
         <script type="text/javascript" src="js/app/user.class.js"></script>

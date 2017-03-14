@@ -1,3 +1,16 @@
 .app-swipe-picture {
     width: 100%;
 }
+
+.app-swipe-dating {
+    color: #e53935;
+}
+.app-swipe-friending {
+    color: #3949ab;
+}
+
+.app-swipe-button {
+    height: auto;
+    padding: .25em;
+    font-size: 5em;
+}

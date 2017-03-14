@@ -10,10 +10,10 @@ class User {
             this._id = 0;
             this._name = "Michelle";
             this._age = 63;
-            this._interests = [new PersonalInterest("Hiking", 2.5), new PersonalInterest("Lifting", 2.5), new PersonalInterest("Skiing", 2.5)];
+            this._interests = [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4), new PersonalInterest("Skiing", 3)];
             this._bio = "Just your average down to earth geeky girl!!!!! I love taking long walks on the beach, but I'm also really into video games! I also love drinking beer, and watching some good Seahawks football!!!!! #GoHawks";
-            this._latitude = 19.8968;
-            this._longitude = 155.5828;
+            this._latitude = 47.6062;
+            this._longitude = -122.3321;
             this._last_active = new Date("3/4/2017");
             this._is_me = false;
 

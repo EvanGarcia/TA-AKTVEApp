@@ -1,8 +1,8 @@
 .app-profile-name {
-    font-size: 3em;
+    font-size: 2.5em;
 }
 .app-profile-details {
-    margin: 0.75em 0 0 0;
+    margin: 0.5em 0 0 0;
 }
 .app-profile-details > span {
     display: block;
@@ -11,4 +11,9 @@
 
 .app-profile-picture {
     width: 100%;
+}
+
+.app-profile-geolocation-map {
+    width: 100%;
+    border-radius: 8px;
 }

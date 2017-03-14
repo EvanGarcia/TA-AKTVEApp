@@ -13,7 +13,7 @@
 
 .app-bgvid {
     z-index: -2;
-    background: url("..images/background.jpg") no-repeat;
+    background: url("../../img/background.jpg") no-repeat;
     background-size: cover;
 }
 .app-bgfilter {

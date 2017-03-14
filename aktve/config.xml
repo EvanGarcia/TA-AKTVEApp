@@ -8,6 +8,7 @@
   <vs:features />
   <preference name="SplashScreen" value="screen" />
   <preference name="windows-target-version" value="8.1" />
+  <preference name="AllowInlineMediaPlayback" value="true"/> <!-- Allows for background movies to play without opening externally -->
 
   <!-- Support for Cordova 5.0.0 plugin system -->
   <plugin name="cordova-plugin-whitelist" version="1" />

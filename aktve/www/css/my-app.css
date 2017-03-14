@@ -41,3 +41,14 @@
     -o-user-select: none;
     user-select: none;
 }
+
+._invisible_list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+._invisible_list li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
