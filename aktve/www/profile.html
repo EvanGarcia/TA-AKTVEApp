@@ -1,3 +1,11 @@
+<!--
+This page displays a User's profile. The ID of the User whose profile should be
+shown can be passed to this page in the query string. For example, going to this
+page by hitting "profile.html?id=543" will cause the page to attempt to load and
+display the profile of whoever the User with an ID of 543 is. Alternatively, no
+ID can be provided and the app's User will be displayed.
+-->
+
 ﻿<!--Top Navbar-->
 <div class="navbar">
     <div class="navbar-inner">
@@ -26,74 +34,48 @@
     <div data-page="profile" class="page">
         <div class="page-content">
             <!--User Profile Pictures-->
-            <div class="content-block contacts-block">
-                <div class="content-block-inner">
-                    <div class="swiper-container" id="ProfilePicturesSwiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img data-src="img/samples/sam1.jpg" id="ProfilePicture1" class="swiper-lazy app-profile-picture">
-                                <div class="preloader"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img data-src="img/samples/sam2.jpg" id="ProfilePicture2" class="swiper-lazy app-profile-picture">
-                                <div class="preloader"></div>
-                            </div>
-                            <div class="swiper-slide">
-                                <img data-src="img/samples/sam3.jpg" id="ProfilePicture3" class="swiper-lazy app-profile-picture">
-                                <div class="preloader"></div>
-                            </div>
-                        </div>
-                        <div class="swiper-pagination"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!--User Info-->
-            <div class="content-block">
-                <div id="ProfileName" class="app-profile-name _floatleft">????, ??</div>
-                <div class="app-profile-details _floatright">
-                    <span id="ProfileDistance">????</span>
-                    <span id="ProfileLastActive">????</span>
-                </div>
-                <div class="_clearfix"></div>
-            </div>
-
-            <!--User Interests-->
-            <div class="content-block-title">Interests</div>
-            <div class="content-block">
-                <div class="content-block-inner">
-                    <div id="ProfileInterests">????, ????, ????</div>
-                </div>
-            </div>
-
-            <!--User Tags-->
-            <div class="content-block-title">Tags</div>
-            <div class="content-block">
-                <div class="content-block-inner">
-                    <div id="ProfileTags">
-                        <div class="chip bg-blue">
-                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
-                            <div class="chip-label">Men</div>
-                        </div>
-                        <div class="chip bg-blue">
-                            <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
-                            <div class="chip-label">Women</div>
+            <div class="card">
+                <!-- User Images -->
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <div class="swiper-container" id="ProfilePicturesSwiper">
+                            ????
                         </div>
                     </div>
+                </div>
+
+                <!-- User Info -->
+                <div class="card-footer">
+                    <div id="ProfileName" class="app-profile-name _floatleft">????, ??</div>
+                    <div class="app-profile-details _floatright">
+                        <span id="ProfileDistance">????</span>
+                        <span id="ProfileLastActive">????</span>
+                    </div>
+                    <div class="_clearfix"></div>
+                </div>
+
+                <!--User Interests-->
+                <div class="card-footer">
+                    <div id="ProfileInterests">????</div>
+                </div>
+
+                <!--User Tags-->
+                <div class="card-footer">
+                    <div id="ProfileTags">????</div>
+                </div>
+
+                <!--User Bio-->
+                <div class="card-footer">
+                    <p id="ProfileBio">????</p>
                 </div>
             </div>
 
             <!--User Location-->
-            <div class="content-block-title">Location</div>
-            <div class="content-block">
-                <img src="" id="ProfileLocationMap" class="app-profile-geolocation-map">
-            </div>
-
-            <!--User Bio-->
-            <div class="content-block-title">Bio</div>
-            <div class="content-block">
-                <div class="content-block-inner">
-                    <p id="ProfileBio">????</p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <img src="" id="ProfileLocationMap" class="app-profile-geolocation-map">
+                    </div>
                 </div>
             </div>
         </div>

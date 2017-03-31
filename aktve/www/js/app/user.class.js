@@ -3,7 +3,7 @@
 // (TODO: Finish this class. Possibly add in methods that actually will pull
 // data about the user from the server.)
 class User {
-    constructor(id, name, age, interests, bio, latitude, longitude, last_active, is_me) {
+    constructor(id, name, age, interests, tags, bio, images, matches, latitude, longitude, last_active) {
         // If no arguments were passed to this constructor, set the user up as
         // the default demo user
         if (arguments.length === 0) {
@@ -11,11 +11,13 @@ class User {
             this._name = "Michelle";
             this._age = 63;
             this._interests = [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4), new PersonalInterest("Skiing", 3)];
+            this._tags = ["friends_men", "friends_women", "dates_men"];
             this._bio = "Just your average down to earth geeky girl!!!!! I love taking long walks on the beach, but I'm also really into video games! I also love drinking beer, and watching some good Seahawks football!!!!! #GoHawks";
+            this._images = ["img/samples/sam1.jpg", "img/samples/sam2.jpg", "img/samples/sam3.jpg"];
+            this._matches = [new Match(320, [null, 3], [new Message(4003, null, "Hey man!"), new Message(4293, 3, "Whatsup?")]), new Match(344, [null, 7], [])];
             this._latitude = 47.6062;
             this._longitude = -122.3321;
             this._last_active = new Date("3/4/2017");
-            this._is_me = false;
 
             return;
         }
@@ -24,11 +26,13 @@ class User {
         this._name = name;
         this._age = age;
         this._interests = interests;
+        this._tags = tags;
         this._bio = bio;
+        this._images = images;
+        this._matches = matches;
         this._latitude = latitude;
         this._longitude = longitude;
         this._last_active = last_active;
-        this._is_me = is_me;
     }
 
     get id() {
@@ -47,8 +51,20 @@ class User {
         return this._interests;
     }
 
+    get tags() {
+        return this._tags;
+    }
+
     get bio() {
         return this._bio;
+    }
+
+    get images() {
+        return this._images;
+    }
+
+    get matches() {
+        return this._matches;
     }
 
     get latitude() {
@@ -79,12 +95,9 @@ class User {
         return active_string;
     }
 
-    get is_me() {
-        return this._is_me;
-    }
-    set is_me(value) {
-        if (value === true || value === false) {
-            this._is_me = value;
-        }
+    // Update() updates this User object from the server.
+    // (TODO: Actually implement this function.)
+    Update() {
+        // (TODO: See above.)
     }
 }

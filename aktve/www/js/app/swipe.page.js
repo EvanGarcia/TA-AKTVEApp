@@ -9,10 +9,12 @@ class SwipePage {
         $("#SwipeDislikeButton").click(swipe_page.handleDislike);
     }
 
+    // handleLike() is a handler for the event of liking another user.
     handleLike() {
         $("#SwipePicture").attr('src', 'http://hdwallpapershdpics.com/wp-content/uploads/2016/08/V4Doic.jpg');
     }
 
+    // handleDislike() is a handler for the event of disliking another user.
     handleDislike() {
         $("#SwipePicture").attr('src', 'https://pbs.twimg.com/profile_images/483129073208528896/3_wpD7SL.jpeg');
     }
