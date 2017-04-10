@@ -17,6 +17,14 @@ class Match {
         this._messages = messages;
     }
 
+    get id() {
+        return this._id;
+    }
+
+    get participants() {
+        return this._participants;
+    }
+
     get messages() {
         return this._messages;
     }

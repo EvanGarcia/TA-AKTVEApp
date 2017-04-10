@@ -21,6 +21,11 @@ $(document).on("deviceready", function() {
     // Pop open the login screen
     // (TODO: Only do this when necessary.)
     myApp.loginScreen("#LoginScreen", false);
+
+    // Begin the engine
+    EngineUpdateRegular();
+    EngineUpdateSemiregular();
+    EngineUpdateIrregular();
 })
 
 // A callback for whenever the User's location changes.
@@ -41,4 +46,46 @@ function onGeolocationChange(position) {
 function onGeolocationFail(error) {
     console.log('Error code: '    + error.code    + '\n' +
                 'Error message: ' + error.message + '\n');
+}
+
+// EngineUpdateRegular() gets called very often and thus should be used to do
+// things like attempt to update Matches and their associated conversations.
+function EngineUpdateRegular() {
+    // (TODO: Any necessary/realtime tasks and updates. For example, update
+    // matches and conversations.)
+
+    // If the chat page has loaded yet, make sure it is showing the latest
+    // messages for the conversation it is currently responsible for
+    if (typeof chat_page != "undefined") {
+        chat_page.LoadAndParseMessages(chat_page.id, true);
+    }
+
+    // Debug output and call this function again in 1 second
+    console.log("Engine updated (regular).");
+    setTimeout(EngineUpdateRegular, 1000);
+}
+
+// EngineUpdateSemiregular() gets called often and should be used to update data
+// that can technically go stagnant and not affect the quality of the User's
+// experience.
+function EngineUpdateSemiregular() {
+    // (TODO: Any semi-regular tasks and updates.)
+
+    // Debug output and call this function again in 30 seconds
+    console.log("Engine updated (semi-regular).");
+    setTimeout(EngineUpdateSemiregular, 30000);
+}
+
+// EngineUpdateIrregular() gets called very irregularly and thus should only be
+// used to perform tasks that almost don't matter.
+function EngineUpdateIrregular() {
+    // (TODO: Any irregular tasks and updates.)
+
+    // Trigger a UserCache update so that we get an updated representation of
+    // all User's that we have cached
+    g_user_cache.Update();
+
+    // Debug output and call this function again in 60 seconds
+    console.log("Engine updated (irregular).");
+    setTimeout(EngineUpdateIrregular, 60000);
 }

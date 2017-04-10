@@ -37,7 +37,7 @@ class UserCache {
     // (NOTE: This can be a very heavy task and should not be done at a regular
     // interval.)
     Update() {
-        for (key in this._users) {
+        for (var key in this._users) {
           this._users[key].Update();
         }
     }

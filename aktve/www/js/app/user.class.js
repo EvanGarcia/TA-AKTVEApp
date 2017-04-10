@@ -14,7 +14,7 @@ class User {
             this._tags = ["friends_men", "friends_women", "dates_men"];
             this._bio = "Just your average down to earth geeky girl!!!!! I love taking long walks on the beach, but I'm also really into video games! I also love drinking beer, and watching some good Seahawks football!!!!! #GoHawks";
             this._images = ["img/samples/sam1.jpg", "img/samples/sam2.jpg", "img/samples/sam3.jpg"];
-            this._matches = [new Match(320, [null, 3], [new Message(4003, null, "Hey man!"), new Message(4293, 3, "Whatsup?")]), new Match(344, [null, 7], [])];
+            this._matches = [new Match(320, [null, 3], [new Message(4003, null, "Hey man!", new Date(), false), new Message(4293, 3, "Whatsup?", new Date(), false)]), new Match(344, [null, 7], [])];
             this._latitude = 47.6062;
             this._longitude = -122.3321;
             this._last_active = new Date("3/4/2017");
@@ -57,6 +57,10 @@ class User {
 
     get bio() {
         return this._bio;
+    }
+
+    get images() {
+        return this._images;
     }
 
     get images() {

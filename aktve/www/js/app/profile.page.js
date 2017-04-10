@@ -5,17 +5,16 @@ class ProfilePage {
         this._user = g_app_user; // By default, make this page display the app User's profile
     }
 
-    // LoadAndParseUser() loads profile data for the User who's ID is provided
+    Init() {
+
+    }
+
+    // LoadAndParseUser(...) loads profile data for the User who's ID is provided
     // and parses it into the page elements.
-    // (NOTE: You can call this function without passing it a new User ID, as
-    // long as it has already been called once with the proper User ID. This is
-    // useful, for example, with an asynchronous Ajax callback where we know the
-    // the User ID the whole time, but need to trigger an Ajax request the first
-    // time around which will then call this function again when it completed.)
-    LoadAndParseUser(user_id=this._user_id) {
+    LoadAndParseUser(id) {
         // Retrieve data for the provided User and populate a User object at
         // this._user with it
-        if (isNaN(user_id) || user_id == null || user_id == g_app_user.id) { // If the provided ID is for the app User
+        if (isNaN(id) || id == null || id == g_app_user.id) { // If the provided ID is for the app User
             // Cache the app User as the User whose profile the page is to display
             this._user = g_app_user;
 
@@ -23,9 +22,8 @@ class ProfilePage {
             $("#SettingsButton").show();
         }
         else { // Otherwise, if the provided ID is for another user
-            // (TODO: Load in other User's data from server and populate a User
-            // object to be stored in this._user, which will be used below to
-            // actually parse the page.)
+            // Retrieve and cache the User
+            this._user = g_user_cache.RetrieveUser(id);
 
             // Hid the settings button for non-app User's profiles
             $("#SettingsButton").hide();
@@ -102,5 +100,6 @@ myApp.onPageInit('profile', function (page) {
     // Retrieve any necessary query string values
     var user_id = page.query.id; // The ID of the User whose profile should be shown
 
+    profile_page.Init()
     profile_page.LoadAndParseUser(user_id); // Retrieve the User's info and display it on the page
 });
