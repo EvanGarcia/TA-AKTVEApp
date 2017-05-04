@@ -1,13 +1,47 @@
 // SwipePage is the class representing the model and implementing the controller
 // functions for the "swipe" page.
+
 class SwipePage {
+
     Init() {
         // Create some events to process user interaction
         // (TODO: Add in touch/swipe events that call these same functions. jQuery
         // makes this very easy.)
+
         // TODO: Buttons are switched. Image doesnt correspond to correct one. 
         $("#SwipeLikeButton").click(swipe_page.handleLike);
         $("#SwipeDislikeButton").click(swipe_page.handleDislike);
+        
+        // Below code gets first potential user and puts them on the stack of cards
+        $.ajax({ 
+            type: 'GET',
+            url: 'https://api.aktve-app.com/potentials' + '?token=' + APITestToken, //
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                potentials = data.Data.potential_user_ids;
+               
+
+            },
+            async: false
+        });
+
+        console.log(potentials);
+
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APITestToken, //Change to actual facebook token
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                console.log(data.Success.success);
+                console.log(data.Success.error);
+                console.log(data.Data.user.name)
+                $("#userName").html(data.Data.user.name);
+            }
+        });
+
+
     }
 
     // handleLike() is a handler for the event of liking another user.
@@ -48,8 +82,9 @@ class SwipePage {
 
 // Instantiate a model/controller for the page
 let swipe_page = new SwipePage();
-
+let potentials = [];
 // Perform necessary steps once the page is loaded.
 myApp.onPageInit('swipe', function (page) {
     swipe_page.Init();
+    
 });
