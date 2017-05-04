@@ -53,32 +53,8 @@ class ProfilePage {
         // (TODO: We need to actually determine the distance based on the user's
         // latitude and longitude and the current latitude and longitude. This could
         // probably end up being a class function or a global function.)
-        $("#ProfileName").html(this._user.name + ", " + this._user.age); // Set to ?? initialy incase the ajax call fails
-        $.ajax({
-            type: 'GET',
-            url: 'https://api.aktve-app.com/me' + '?token=' + APITestToken, //Change to actual facebook token
-            dataType: 'json',
-            context: this, // Make the callaback function's `this` variable point to this User object
-            success: function (data) {
-                console.log(data);
-                var R = 3959 ; // in miles
-                let y1 = data.Data.latitude;
-                let x1 = data.Data.longitude;
-                let x2 = this._user._longitude;
-                let y2 = this._user._latitude   
-                var dLat = (y2 - y1) * (Math.PI / 180);
-                var dLon = (x2 - x1) * (Math.PI / 180);
-                var lat1 = (y1) * (Math.PI / 180);
-                var lat2 = (y2) * (Math.PI / 180);
-                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
-                
-                $("#ProfileDistance").html(Math.round(d) + " Miles Away"); 
-            }
-        });
-
+        $("#ProfileName").html(this._user.name + ", " + this._user.age);
+        $("#ProfileDistance").html("??" + " Miles Away"); // (TODO: See above.)
         $("#ProfileLastActive").html("Seen " + this._user.last_active);
         $("#ProfileBio").html(this._user.bio);
 
