@@ -77,21 +77,33 @@ class ChatPage {
 
     // SendMessage() sends the message that is currently typed into the
     // messagebar on the page
-    SendMessage() {
-        // Clean up message text
-        var messageText = this.messagebar.value().trim();
-        if (messageText.length === 0) return; // Exit if message is empty
+        SendMessage() {
+            // Clean up message text
+            var messageText = this.messagebar.value().trim();
+            if (messageText.length === 0) return; // Exit if message is empty
 
-        // Empty the messagebar
-        this.messagebar.clear()
+            // Empty the messagebar
+            this.messagebar.clear()
 
-        // Add the message to the messages
-        // (TODO: Send the message to the server. Possibly also add it to the
-        // page's message view if the server doesn't send it back to you as a
-        // new message.)
-        // (TODO: Actually include the message's date information.)
-        this.AddMessage(messageText, "sent", g_app_user.name, g_app_user.images[0], false, false)
-    }
+            // Add the message to the messages
+            // (TODO: Send the message to the server. Possibly also add it to the
+            // page's message view if the server doesn't send it back to you as a
+            // new message.)
+            $.ajax({
+                type: 'post',
+                url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=a1b2c3d4e5f6g7h8i9j", //Change to actual facebook token
+                dataType: 'json',
+                data: { 'message': messageText}, 
+                context: this, // Make the callaback function's `this` variable point to this User object
+                success: function (data) {
+                    console.log(this._match_id);
+                    console.log(data.Success.success);
+                    console.log(data.Success.error);
+                }
+            });
+            // (TODO: Actually include the message's date information.)
+            this.AddMessage(messageText, "sent", g_app_user.name, g_app_user.images[0], false, false)
+        }
 
     // AddMessage() adds the provided regular text message to the message
     // list on the page
