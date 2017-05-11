@@ -13,9 +13,32 @@ $(document).on("deviceready", function() {
     var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
     console.log("navigator.geolocation is now watching the user's location");
 
-    // Pop open the login screen
-    // (TODO: Only do this when necessary.)
-    myApp.loginScreen("#LoginScreen", false);
+
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1946946788868264',
+            cookie: true,
+            xfbml: true,
+            version: 'v2.8'
+        });
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });  
+
+        FB.AppEvents.logPageView();
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    
 
     // Begin the engine
     EngineUpdateRegular();
@@ -118,4 +141,47 @@ function EngineUpdateIrregular() {
     setTimeout(EngineUpdateIrregular, 60000);
 }
 
+
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        //Add real Token
+        myApp.loginScreen("#LoginScreen", false);
+        myApp.closeModal("#LoginScreen");
+        mainView.router.loadPage("swipe.html");
+
+    } else {
+        // The person is not logged into your app or we are unable to tell.
+        myApp.loginScreen("#LoginScreen", false);
+    }
+}
+
+//function fbLogoutUser() {
+//    FB.getLoginStatus(function (response) {
+//        if (response && response.status === 'connected') {
+//            FB.logout(function (response) {
+//                document.location.reload();
+//            });
+//        }
+//    });
+//}
+
+function checkLoginState()
+{
+    FB.getLoginStatus(function (response) {
+        if (response && response.status === 'connected') {
+
+            myApp.closeModal("#LoginScreen");
+            mainView.router.loadPage("swipe.html");
+           
+        }
+    });
+
+}
 
