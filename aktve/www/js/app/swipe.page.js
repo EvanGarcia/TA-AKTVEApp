@@ -78,11 +78,10 @@ class SwipePage {
 
     // handleLike() is a handler for the event of liking another user.
     handleLike() {
-        pontentialIndex++;
-
+ 
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + 1 + "/feeling?token=" + APITestToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APITestToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "like" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -91,6 +90,8 @@ class SwipePage {
                 console.log(data.Success.error);
             }
         });
+
+        pontentialIndex++;
 
         $.ajax({
             type: 'GET',
@@ -146,11 +147,10 @@ class SwipePage {
 
     // handleDislike() is a handler for the event of disliking another user.
     handleDislike() {
-        pontentialIndex++;
-
+       
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + 1 + "/feeling?token=" + APITestToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APITestToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "dislike" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -159,6 +159,8 @@ class SwipePage {
                 console.log(data.Success.error);
             }
         });
+
+        pontentialIndex++;
 
         $.ajax({
             type: 'GET',
