@@ -5,9 +5,107 @@ class ProfilePage {
         this._user = g_app_user; // By default, make this page display the app User's profile
     }
 
-    Init() {
+    Init() { //When the user clicks on another user in the swipe page. Bug where clicking the first time.
+        $("#profPic").click(function () {
+         
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APITestToken, //Change to actual facebook token
+                dataType: 'json',
+                context: this, // Make the callaback function's `this` variable point to this User object
+                success: function (data) {
+                    if (data.Success.success == false) {
+                        
+                    } else {
+                        var theirLat = data.Data.user.latitude;
+                        var theirLong = data.Data.user.longitude;
 
+                        $.ajax({
+                            type: 'GET',
+                            url: 'https://api.aktve-app.com/me' + '?token=' + APITestToken, //Change to actual facebook token
+                            dataType: 'json',
+                            context: this, // Make the callaback function's `this` variable point to this User object
+                            success: function (data) {
+                                console.log(data);
+                                var R = 3959; // in miles
+                                let y1 = data.Data.latitude;
+                                let x1 = data.Data.longitude;
+                                let x2 = theirLong
+                                let y2 = theirLat
+                                var dLat = (y2 - y1) * (Math.PI / 180);
+                                var dLon = (x2 - x1) * (Math.PI / 180);
+                                var lat1 = (y1) * (Math.PI / 180);
+                                var lat2 = (y2) * (Math.PI / 180);
+                                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                  Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+                                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                var d = R * c;
+
+                                $("#ProfileDistance").html(Math.round(d) + " Miles Away");
+                            }
+                        });
+
+                        let pictures_string = "";
+                        pictures_string += "<div class=\"swiper-wrapper\" id=\"ProfilePictures\">";
+                        for (var i = 0; i < data.Data.user.images.length; i++) {
+                            pictures_string += "\t<div class=\"swiper-slide\">";
+                            pictures_string += "\t\t<img src=\"" + data.Data.user.images[i] + "\" id=\"ProfilePicture" + i.toString() + "\" class=\"swiper-lazy app-profile-picture\">";
+                            pictures_string += "\t\t<div class=\"preloader\"></div>";
+                            pictures_string += "\t</div>";
+                        }
+                        pictures_string += "</div>";
+                        pictures_string += "<div class=\"swiper-pagination\"></div>"
+                        $("#ProfilePicturesSwiper").html(pictures_string);
+                        myApp.swiper('#ProfilePicturesSwiper', {
+                            preloadImages: false,
+                            lazyLoading: true,
+                            pagination: '.swiper-pagination',
+                            speed: 400,
+                            spaceBetween: 100
+                        });
+
+                        $("#ProfileName").html(data.Data.user.name + ", " + data.Data.user.age); // Set to ?? initialy incase the ajax call fails
+
+                        $("#ProfileLastActive").html("Seen " + data.Data.user.last_active);
+                        $("#ProfileBio").html(data.Data.user.bio);
+
+                        let interests_string = "";
+                        $.each(data.Data, function (key, value) { // First Level
+                            $.each(value.interests, function (k, v) {  // The contents inside stars
+                                interests_string += "<div class=\"chip\">\n";
+                                interests_string += "\t<div class=\"chip-media bg-gray\">" + v + "</div>\n";
+                                interests_string += "\t<div class=\"chip-label\">" + k + "</div>\n";
+                                interests_string += "</div>\n";
+                            });
+                        });
+                        $("#ProfileInterests").html(interests_string);
+
+                        let tags_string = "";
+                        for (var i = 0; i < data.Data.user.tags.length; i++) {
+                            if (data.Data.user.tags[i] == "friends_men" || data.Data.user.tags[i] == "friends_women") { // If the tag is a "friend" tag
+                                tags_string += "<div class=\"chip bg-blue\">\n";
+                                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
+                                tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                                tags_string += "</div>\n";
+                            }
+                            else if (data.Data.user.tags[i] == "dates_men" || data.Data.user.tags[i] == "dates_women") { // If the tag is a "date" tag
+                                tags_string += "<div class=\"chip bg-red\">\n";
+                                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
+                                tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                                tags_string += "</div>\n";
+                            }
+                        }
+                        $("#ProfileTags").html(tags_string);
+
+                        var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + data.Data.user.latitude + "," + data.Data.user.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + data.Data.user.latitude + "," + data.Data.user.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;
+                        $("#ProfileLocationMap").attr("src", google_map_url);
+                    }
+                }
+            });
+        });
     }
+
+    
 
     // LoadAndParseUser(...) loads profile data for the User who's ID is provided
     // and parses it into the page elements.
