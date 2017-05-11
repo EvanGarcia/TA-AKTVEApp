@@ -26,6 +26,17 @@ class ChatPage {
 
         // Setup a handler function for the "Send" button
         $(".messagebar .link").click($.proxy(this.handleSend, this));
+
+        $.ajax({ //TODO: Put message data into array that will be handled.
+            type: 'GET',
+            url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APITestToken, //
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                
+            }
+
+        });
     }
 
     // handleSend() is a handler for the event of sending the message
@@ -91,7 +102,7 @@ class ChatPage {
             // new message.)
             $.ajax({
                 type: 'post',
-                url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=a1b2c3d4e5f6g7h8i9j", //Change to actual facebook token
+                url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=" + APITestToken, //Change to actual facebook token
                 dataType: 'json',
                 data: { 'message': messageText}, 
                 context: this, // Make the callaback function's `this` variable point to this User object
