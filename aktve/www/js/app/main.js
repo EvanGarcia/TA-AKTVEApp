@@ -3,14 +3,8 @@ let g_app_user = new User();
 
 let APITestToken = 'a1b2c3d4e5f6g7h8i9j';
 
-// Create some global demo Users
-let g_demo_user_one = new User(1, "Titttie", 2, [new PersonalInterest("Hiking", 1), new PersonalInterest("Lifting", 4)], ["friends_men", "friends_women"], "I'm a really dude.", ["img/samples/evan1.jpg"], [], 47.6062, -122.3321, new Date("3/28/2017"));
-let g_demo_user_two = new User(2, "Faggie", 22, [new PersonalInterest("Climbing", 2), new PersonalInterest("Snorkeling", 4)], ["friends_men", "friends_women", "dates_men"], "I'm a really cool girl.", ["http://lorempixel.com/output/people-q-c-100-100-9.jpg"], [], 48.6062, -122.3321, new Date("3/28/2017"));
-// Create a global User cache so that we don't have to hit the server every
-// single time we need to lookup data for a user
 let g_user_cache = new UserCache();
-g_user_cache.AddUser(g_demo_user_one);
-g_user_cache.AddUser(g_demo_user_two);
+
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
@@ -19,9 +13,36 @@ $(document).on("deviceready", function () {
     var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
     console.log("navigator.geolocation is now watching the user's location");
 
-    // Pop open the login screen
-    // (TODO: Only do this when necessary.)
-    myApp.loginScreen("#LoginScreen", false);
+
+    //Facebook API Connection
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1946946788868264',
+            cookie: true,
+            xfbml: true,
+            version: 'v2.8'
+        });
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });  
+
+        PopulateUser();
+
+
+        FB.AppEvents.logPageView();
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    
 
     // Begin the engine
     EngineUpdateRegular();
@@ -72,11 +93,6 @@ function EngineUpdateRegular() {
 function EngineUpdateSemiregular() {
     // (TODO: Any semi-regular tasks and updates.)
 
-
-
-
-
-
     // Debug output and call this function again in 30 seconds
     console.log("Engine updated (semi-regular).");
     setTimeout(EngineUpdateSemiregular, 30000);
@@ -85,8 +101,24 @@ function EngineUpdateSemiregular() {
 // EngineUpdateIrregular() gets called very irregularly and thus should only be
 // used to perform tasks that almost don't matter.
 function EngineUpdateIrregular() {
-    // (TODO: Any irregular tasks and updates.)
+    //Update Cache with any new potential users
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.aktve-app.com/potentials' + '?token=' + APITestToken, //Change to actual facebook token
+        dataType: 'json',
+        context: this,
+        success: function (data) {
+          $.each(data.Data.potential_user_ids, function (key, value) { // First Level
+                                   
+                g_user_cache.RetrieveUser(value); // If any new potential users are not in the cache, put them there
+                                          
 
+                });
+           
+        }
+    });
+
+    //Update the Cache with all matched users
     $.ajax({
         type: 'GET',
         url: 'https://api.aktve-app.com/me/matches' + '?token=' + APITestToken, //Change to actual facebook token
@@ -94,7 +126,6 @@ function EngineUpdateIrregular() {
         context: this, // Make the callaback function's `this` variable point to this User object
         success: function (data) {
             console.log(data);
-
 
             $.each(data.Data.matches, function (key, value) { // First Level
                 $.each(value.participants, function (v) {
@@ -123,3 +154,75 @@ function EngineUpdateIrregular() {
     setTimeout(EngineUpdateIrregular, 60000);
 }
 
+//Called on App start up. Determines whether to go to the login page or swipe page.
+
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        //Add real Token
+        myApp.loginScreen("#LoginScreen", false);
+        myApp.closeModal("#LoginScreen");
+        mainView.router.loadPage("swipe.html");
+
+    } else {
+        // The person is not logged into your app or we are unable to tell.
+        myApp.loginScreen("#LoginScreen", false);
+    }
+}
+
+
+
+//Logout user. Need to add this as a button in settings page.
+
+//function fbLogoutUser() {
+//    FB.getLoginStatus(function (response) {
+//        if (response && response.status === 'connected') {
+//            FB.logout(function (response) {
+//                document.location.reload();
+//            });
+//        }
+//    });
+//}
+
+
+//Check the Login state. Used in index.html to navigate to swipe page after login.
+
+function checkLoginState()
+{
+    FB.getLoginStatus(function (response) {
+        if (response && response.status === 'connected') {
+
+            myApp.closeModal("#LoginScreen");
+            mainView.router.loadPage("swipe.html");
+           
+            return true;
+        }
+
+    });
+
+    return false;
+
+}
+
+
+
+//Populate App User with Facebook Profile Info
+
+//function PopulateUser() {
+    
+//    if(checkLoginState() === true)
+//    {
+//        FB.api('/me', function (response) {
+            
+//            g_app_user = new User(response.id, response.name, 21, [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4), new PersonalInterest("Skiing", 3)], ["friends_men", "friends_women", "dates_men"], "Hey!", [], [new Match(320, [null, 1], [new Message(4003, null, "Hey man!", new Date(), false), new Message(4293, 1, "Whatsup?", new Date(), false)]), new Match(344, [null, 2], [])], 47.6062, 47.6062, new Date("3/4/2017"));
+
+//        });
+//    }
+
+//}

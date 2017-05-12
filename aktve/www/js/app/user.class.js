@@ -7,7 +7,10 @@ class User {
     constructor(id, name, age, interests, tags, bio, images, matches, latitude, longitude, last_active) {
         // If no arguments were passed to this constructor, set the user up as
         // the default demo user
+
+        //Need to pass in Facebook Arguments
         if (arguments.length === 0) {
+
             this._id = 0;
             this._name = "Michelle";
             this._age = 63;
@@ -33,7 +36,7 @@ class User {
         this._matches = matches;
         this._latitude = latitude;
         this._longitude = longitude;
-        this._last_active = last_active;
+        this._last_active = new Date(last_active);
     }
 
     get id() {
@@ -92,6 +95,7 @@ class User {
 
     get last_active() {
         let todays_date = new Date();
+        console.log(this._last_active);
         let time_diff = Math.abs(todays_date.getTime() - this._last_active.getTime());
         let days_diff = Math.ceil(time_diff / (1000 * 3600 * 24));
 
@@ -101,16 +105,17 @@ class User {
     }
 
     // Update() updates this User object from the server.
-    // (TODO: Actually implement this function.)
     Update() {
-        // (TODO: See above.)
-        //Add bio and other atrributes
+
+        
+        //API call on Cached Users' info
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + this._id + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + this._id  + '?token=' + APITestToken, //Change to actual facebook token
             dataType: 'json',
-            context: this, // Make the callaback function's `this` variable point to this User object
+            context: this, // Make the callback function's `this` variable point to this User object
+
             success: function (data) {
                 console.log(data);
                 this._id = data.Data.user.id;
@@ -120,19 +125,46 @@ class User {
                 this._longitude = data.Data.user.longitude;
                 this._last_active = new Date(data.Data.user.last_active);
 
+                this._bio = data.Data.user.bio;
+
                 var interestsArray = [];
-                $.each(data.Data, function (key, value) { // First Level
-                    $.each(value.interests, function (k, v) {  // The contents inside stars
+                $.each(data.Data , function(key , value){ 
+                    $.each(value.interests , function(k , v ){  
                         interestsArray.push(new PersonalInterest(k, v));
+                    });        
+                });
+
+                this._interests = interestsArray;
+
+
+                var tagsArray = [];
+                $.each(data.Data, function (key, value) { 
+                    $.each(value.tags, function (k, v) {  
+                        tagsArray.push(v);
                     });
                 });
 
+                this._tags = tagsArray;
+                
 
-                this._interests = interestsArray;
+                var imagesArray = [];
+                $.each(data.Data, function (key, value) { 
+                    $.each(value.images, function (k, v) {  
+                        imagesArray.push(v);
+                    });
+                });
+
+                this._images = imagesArray;
+
+
+
+
 
             }
 
         });
+
+        
 
     }
 }
