@@ -29,11 +29,11 @@ class UserCache {
                 dataType: 'json',
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
-                    console.log(data);
-                    
+                    console.log(data);                    
                     var interestsArray = [];
                     $.each(data.Data, function (key, value) { 
                         $.each(value.interests, function (k, v) {  
+
                             interestsArray.push(new PersonalInterest(k, v));
                         });
                     });
@@ -61,6 +61,7 @@ class UserCache {
                     //Add New User to Cache
                     this._users[id_as_string] = new User(data.Data.user.id, data.Data.user.name, data.Data.user.age, interestsArray, tagsArray, data.Data.user.bio, imagesArray, [], data.Data.user.latitude, data.Data.user.longitude, data.Data.user.last_active );
                     
+
 
 
                 }

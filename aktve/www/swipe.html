@@ -21,25 +21,25 @@
     <div data-page="swipe" class="page">
         <div class="page-content">
             <!--Profile-->
-            <div class="card">
+            <div class="card" id="cardContent">
                 <div class="card-content">
                     <div class="card-content-inner">
-                        <a href="profile.html" class="item-link">
-                            <img data-src="http://file.instiz.net/data/file/20130904/1/b/1/1b10a43095e026d01d28002c13db50e6" id="SwipePicture" class="lazy lazy-fadeIn app-swipe-picture">
+                        <a href="profile.html" class="item-link" id="profPic">
+                            <img data-src="http://img-aws.ehowcdn.com/400x400/ds-img.studiod.com/Sherwin_Range02C_Benton_Cross_1.jpg" id="SwipePicture" class="lazy lazy-fadeIn app-swipe-picture">
                         </a>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="app-profile-name _floatleft">Johnny, 23</div>
+                    <div class="app-profile-name _floatleft" id="userName">Johnny, 23</div>
                     <div class="app-profile-details _floatright">
-                        <span>12 Miles Away</span>
-                        <span>Last Active 1 Day Ago</span>
+                        <!--<span>12 Miles Away</span>-->
+                        <span id="lastAct">Last Active 1 Day Ago</span>
                     </div>
                     <div class="_clearfix"></div>
                 </div>
                 <div class="card-footer">
                     <div id="SwipeInterests">
-                        <div class="chip">
+                        <!--<div class="chip">
                             <div class="chip-media bg-gray">2</div>
                             <div class="chip-label">Skiing</div>
                         </div>
@@ -58,12 +58,12 @@
                         <div class="chip">
                             <div class="chip-media bg-gray">3</div>
                             <div class="chip-label">Biking</div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div class="card-footer">
                     <div id="SwipeDetails">
-                        <div class="chip bg-red">
+                        <!--<div class="chip bg-red">
                             <div class="chip-media"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
                             <div class="chip-label">Men</div>
                         </div>
@@ -75,6 +75,7 @@
                             <div class="chip-media"><i class="fa fa-hand-peace-o" aria-hidden="true"></i></div>
                             <div class="chip-label">Women</div>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>
@@ -82,8 +83,8 @@
             <!--Like/Dislike Buttons-->
             <div class="content-block">
                 <div class="row">
-                    <div class="col-50"><a class="button app-swipe-button" id="SwipeLikeButton"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></div>
-                    <div class="col-50"><a class="button app-swipe-button" id="SwipeDislikeButton"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></div>
+                    <div class="col-50"><a class="button app-swipe-button" id="SwipeDislikeButton"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a></div>
+                    <div class="col-50"><a class="button app-swipe-button" id="SwipeLikeButton"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></div>
                 </div>
             </div>
         </div>

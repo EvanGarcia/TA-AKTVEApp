@@ -8,7 +8,7 @@ let g_user_cache = new UserCache();
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
-$(document).on("deviceready", function() {
+$(document).on("deviceready", function () {
     // Start watching the user's location
     var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
     console.log("navigator.geolocation is now watching the user's location");
@@ -66,7 +66,7 @@ function onGeolocationChange(position) {
 
 // An error callback for failed attempts to get the User's location.
 function onGeolocationFail(error) {
-    console.log('Error code: '    + error.code    + '\n' +
+    console.log('Error code: ' + error.code + '\n' +
                 'Error message: ' + error.message + '\n');
 }
 
@@ -93,11 +93,6 @@ function EngineUpdateRegular() {
 function EngineUpdateSemiregular() {
     // (TODO: Any semi-regular tasks and updates.)
 
-   
-    
-
-  
-
     // Debug output and call this function again in 30 seconds
     console.log("Engine updated (semi-regular).");
     setTimeout(EngineUpdateSemiregular, 30000);
@@ -106,19 +101,14 @@ function EngineUpdateSemiregular() {
 // EngineUpdateIrregular() gets called very irregularly and thus should only be
 // used to perform tasks that almost don't matter.
 function EngineUpdateIrregular() {
-    // (TODO: Any irregular tasks and updates.)
-
     //Update Cache with any new potential users
     $.ajax({
         type: 'GET',
         url: 'https://api.aktve-app.com/potentials' + '?token=' + APITestToken, //Change to actual facebook token
         dataType: 'json',
-        context: this, // Make the callaback function's `this` variable point to this User object
+        context: this,
         success: function (data) {
-            console.log(data);
-
-
-            $.each(data.Data.potential_user_ids, function (key, value) { // First Level
+          $.each(data.Data.potential_user_ids, function (key, value) { // First Level
                                    
                 g_user_cache.RetrieveUser(value); // If any new potential users are not in the cache, put them there
                                           
@@ -126,8 +116,27 @@ function EngineUpdateIrregular() {
                 });
            
         }
+    });
 
+    //Update the Cache with all matched users
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.aktve-app.com/me/matches' + '?token=' + APITestToken, //Change to actual facebook token
+        dataType: 'json',
+        context: this, // Make the callaback function's `this` variable point to this User object
+        success: function (data) {
+            console.log(data);
 
+            $.each(data.Data.matches, function (key, value) { // First Level
+                $.each(value.participants, function (v) {
+                    if (v != 0) //Not equal to me CHANGE TO ACTUAL CURRENT USER ID
+                    {
+                        g_user_cache.RetrieveUser(v);
+
+                    }
+                });
+            });
+        }
     });
 
     // Trigger a UserCache update so that we get an updated representation of
@@ -144,7 +153,6 @@ function EngineUpdateIrregular() {
     console.log("Engine updated (irregular).");
     setTimeout(EngineUpdateIrregular, 60000);
 }
-
 
 //Called on App start up. Determines whether to go to the login page or swipe page.
 
@@ -218,4 +226,3 @@ function checkLoginState()
 //    }
 
 //}
-

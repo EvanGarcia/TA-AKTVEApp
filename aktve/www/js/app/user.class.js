@@ -106,6 +106,7 @@ class User {
 
     // Update() updates this User object from the server.
     Update() {
+
         
         //API call on Cached Users' info
 
@@ -114,6 +115,7 @@ class User {
             url: 'https://api.aktve-app.com/users/' + this._id  + '?token=' + APITestToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callback function's `this` variable point to this User object
+
             success: function (data) {
                 console.log(data);
                 this._id = data.Data.user.id;
@@ -122,6 +124,7 @@ class User {
                 this._latitude = data.Data.user.latitude;
                 this._longitude = data.Data.user.longitude;
                 this._last_active = new Date(data.Data.user.last_active);
+
                 this._bio = data.Data.user.bio;
 
                 var interestsArray = [];
@@ -156,9 +159,12 @@ class User {
 
 
 
+
             }
 
         });
+
         
+
     }
 }
