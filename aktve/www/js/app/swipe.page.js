@@ -138,7 +138,7 @@ class SwipePage {
                     $("#SwipeLikeButton").show();
                     $("#SwipeDislikeButton").show();
                     document.getElementById("profPic").
-                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\" alt=\"" + pontentialIndex + "\">";
+                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\">";
                     $("#userName").html(data.Data.user.name + ", " + data.Data.user.age);
                     $("#lastAct").html("Last Active: " + new Date(data.Data.user.last_active));
                     $("#SwipeInterests").html("");
@@ -204,7 +204,7 @@ class SwipePage {
                     $("#SwipeDislikeButton").hide();
                 } else {
                     document.getElementById("profPic").
-                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\" alt=\"" + pontentialIndex + "\">";
+                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\">";
                     $("#userName").html(data.Data.user.name + ", " + data.Data.user.age);
                     $("#lastAct").html("Last Active: " + new Date(data.Data.user.last_active));
                     $("#SwipeInterests").html("");
@@ -273,7 +273,7 @@ class SwipePage {
                     $("#SwipeDislikeButton").hide();
                 } else {
                     document.getElementById("profPic").
-                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\" alt=\"" + pontentialIndex + "\">";
+                        innerHTML = "<img data-src=\"" + data.Data.user.images[0] + "\"id=\"SwipePicture\" class=\"lazy lazy-fadeIn app-swipe-picture\">";
                     $("#userName").html(data.Data.user.name + ", " + data.Data.user.age);
                     $("#lastAct").html("Last Active: " + new Date(data.Data.user.last_active));
                     $("#SwipeInterests").html("");
