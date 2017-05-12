@@ -7,7 +7,10 @@ class User {
     constructor(id, name, age, interests, tags, bio, images, matches, latitude, longitude, last_active) {
         // If no arguments were passed to this constructor, set the user up as
         // the default demo user
+
+        //Need to pass in Facebook Arguments
         if (arguments.length === 0) {
+
             this._id = 0;
             this._name = "Michelle";
             this._age = 63;
@@ -102,16 +105,15 @@ class User {
     }
 
     // Update() updates this User object from the server.
-    // (TODO: Actually implement this function.)
     Update() {
-        // (TODO: See above.)
-        //Add bio and other atrributes
         
+        //API call on Cached Users' info
+
         $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/users/' + this._id  + '?token=' + APITestToken, //Change to actual facebook token
             dataType: 'json',
-            context: this, // Make the callaback function's `this` variable point to this User object
+            context: this, // Make the callback function's `this` variable point to this User object
             success: function (data) {
                 console.log(data);
                 this._id = data.Data.user.id;

@@ -14,6 +14,7 @@ $(document).on("deviceready", function() {
     console.log("navigator.geolocation is now watching the user's location");
 
 
+    //Facebook API Connection
 
     window.fbAsyncInit = function () {
         FB.init({
@@ -26,6 +27,9 @@ $(document).on("deviceready", function() {
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
         });  
+
+        PopulateUser();
+
 
         FB.AppEvents.logPageView();
     };
@@ -142,6 +146,8 @@ function EngineUpdateIrregular() {
 }
 
 
+//Called on App start up. Determines whether to go to the login page or swipe page.
+
 function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
@@ -162,6 +168,10 @@ function statusChangeCallback(response) {
     }
 }
 
+
+
+//Logout user. Need to add this as a button in settings page.
+
 //function fbLogoutUser() {
 //    FB.getLoginStatus(function (response) {
 //        if (response && response.status === 'connected') {
@@ -172,6 +182,9 @@ function statusChangeCallback(response) {
 //    });
 //}
 
+
+//Check the Login state. Used in index.html to navigate to swipe page after login.
+
 function checkLoginState()
 {
     FB.getLoginStatus(function (response) {
@@ -180,8 +193,29 @@ function checkLoginState()
             myApp.closeModal("#LoginScreen");
             mainView.router.loadPage("swipe.html");
            
+            return true;
         }
+
     });
 
+    return false;
+
 }
+
+
+
+//Populate App User with Facebook Profile Info
+
+//function PopulateUser() {
+    
+//    if(checkLoginState() === true)
+//    {
+//        FB.api('/me', function (response) {
+            
+//            g_app_user = new User(response.id, response.name, 21, [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4), new PersonalInterest("Skiing", 3)], ["friends_men", "friends_women", "dates_men"], "Hey!", [], [new Match(320, [null, 1], [new Message(4003, null, "Hey man!", new Date(), false), new Message(4293, 1, "Whatsup?", new Date(), false)]), new Match(344, [null, 2], [])], 47.6062, 47.6062, new Date("3/4/2017"));
+
+//        });
+//    }
+
+//}
 
