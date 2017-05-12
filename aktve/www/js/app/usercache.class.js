@@ -21,7 +21,28 @@ class UserCache {
         let id_as_string = id.toString();
 
         if (this._users[id_as_string] == null) {
-            // (TODO: See above. Retrieve user from server and cache them.)
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.aktve-app.com/users/' + id_as_string + '?token=' + APITestToken, //Change to actual facebook token
+                dataType: 'json',
+                context: this, // Make the callaback function's `this` variable point to this User object
+                success: function (data) {
+                    console.log(data);
+
+                    var interestsArray = [];
+                    $.each(data.Data, function (key, value) { // First Level
+                        $.each(value.interests, function (k, v) {  // The contents inside stars
+                            interestsArray.push(new PersonalInterest(k, v));
+                        });
+                    });
+
+                    this._users[id_as_string] = new User(data.Data.user.id, data.Data.user.name, data.Data.user.age, interestsArray, [], "", [""], [], data.Data.user.latitude, data.Data.user.longitude, data.Data.user.last_active);
+
+                    new Match(0, [null, data.Data.user.id], []);
+                }
+
+            });
         }
 
         return this._users[id_as_string];
@@ -38,7 +59,8 @@ class UserCache {
     // interval.)
     Update() {
         for (var key in this._users) {
-          this._users[key].Update();
+
+            this._users[key].Update();
         }
     }
 }

@@ -5,16 +5,16 @@ class ProfilePage {
         this._user = g_app_user; // By default, make this page display the app User's profile
     }
 
-    Init() {
-
-    }
+    Init() { //When the user clicks on another user in the swipe page. Bug where clicking the first time.
+       
+    } 
 
     // LoadAndParseUser(...) loads profile data for the User who's ID is provided
     // and parses it into the page elements.
     LoadAndParseUser(id) {
         // Retrieve data for the provided User and populate a User object at
         // this._user with it
-        if (isNaN(id) || id == null || id == g_app_user.id) { // If the provided ID is for the app User
+        if (isNaN(id) || id == null || id == g_app_user.id ) { // If the provided ID is for the app User
             // Cache the app User as the User whose profile the page is to display
             this._user = g_app_user;
 
@@ -53,8 +53,32 @@ class ProfilePage {
         // (TODO: We need to actually determine the distance based on the user's
         // latitude and longitude and the current latitude and longitude. This could
         // probably end up being a class function or a global function.)
-        $("#ProfileName").html(this._user.name + ", " + this._user.age);
-        $("#ProfileDistance").html("??" + " Miles Away"); // (TODO: See above.)
+        $("#ProfileName").html(this._user.name + ", " + this._user.age); // Set to ?? initialy incase the ajax call fails
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.aktve-app.com/me' + '?token=' + APITestToken, //Change to actual facebook token
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                console.log(data);
+                var R = 3959 ; // in miles
+                let y1 = data.Data.latitude;
+                let x1 = data.Data.longitude;
+                let x2 = this._user._longitude;
+                let y2 = this._user._latitude   
+                var dLat = (y2 - y1) * (Math.PI / 180);
+                var dLon = (x2 - x1) * (Math.PI / 180);
+                var lat1 = (y1) * (Math.PI / 180);
+                var lat2 = (y2) * (Math.PI / 180);
+                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c;
+                
+                $("#ProfileDistance").html(Math.round(d) + " Miles Away"); 
+            }
+        });
+
         $("#ProfileLastActive").html("Seen " + this._user.last_active);
         $("#ProfileBio").html(this._user.bio);
 
@@ -99,7 +123,13 @@ let profile_page = new ProfilePage();
 myApp.onPageInit('profile', function (page) {
     // Retrieve any necessary query string values
     var user_id = page.query.id; // The ID of the User whose profile should be shown
-
     profile_page.Init()
-    profile_page.LoadAndParseUser(user_id); // Retrieve the User's info and display it on the page
+    // Flag for Prof Clicked
+    if (clickedProf == 1) {
+        clickedProf = 0;
+    } else {
+        profile_page.LoadAndParseUser(user_id);
+        console.log("Iran for somereason")
+    }
+    
 });

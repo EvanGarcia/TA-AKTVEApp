@@ -1,10 +1,11 @@
 // Create a global User object for the app's user
 let g_app_user = new User();
 
-// Create some global demo Users
-let g_demo_user_one = new User(3, "Titus", 2, [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4)], ["friends_men", "friends_women", "dates_women"], "I'm a really cool dude.", ["img/samples/evan1.jpg"], [], 47.6062, -122.3321, new Date("3/28/2017"));
-let g_demo_user_two = new User(7, "Annie", 22, [new PersonalInterest("Climbing", 2), new PersonalInterest("Snorkeling", 4)], ["friends_men", "friends_women", "dates_men"], "I'm a really cool girl.", ["http://lorempixel.com/output/people-q-c-100-100-9.jpg"], [], 47.6062, -122.3321, new Date("3/28/2017"));
+let APITestToken = 'a1b2c3d4e5f6g7h8i9j';
 
+// Create some global demo Users
+let g_demo_user_one = new User(1, "Titttie", 2, [new PersonalInterest("Hiking", 1), new PersonalInterest("Lifting", 4)], ["friends_men", "friends_women"], "I'm a really dude.", ["img/samples/evan1.jpg"], [], 47.6062, -122.3321, new Date("3/28/2017"));
+let g_demo_user_two = new User(2, "Faggie", 22, [new PersonalInterest("Climbing", 2), new PersonalInterest("Snorkeling", 4)], ["friends_men", "friends_women", "dates_men"], "I'm a really cool girl.", ["http://lorempixel.com/output/people-q-c-100-100-9.jpg"], [], 48.6062, -122.3321, new Date("3/28/2017"));
 // Create a global User cache so that we don't have to hit the server every
 // single time we need to lookup data for a user
 let g_user_cache = new UserCache();
@@ -13,7 +14,7 @@ g_user_cache.AddUser(g_demo_user_two);
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
-$(document).on("deviceready", function() {
+$(document).on("deviceready", function () {
     // Start watching the user's location
     var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
     console.log("navigator.geolocation is now watching the user's location");
@@ -44,7 +45,7 @@ function onGeolocationChange(position) {
 
 // An error callback for failed attempts to get the User's location.
 function onGeolocationFail(error) {
-    console.log('Error code: '    + error.code    + '\n' +
+    console.log('Error code: ' + error.code + '\n' +
                 'Error message: ' + error.message + '\n');
 }
 
@@ -71,6 +72,11 @@ function EngineUpdateRegular() {
 function EngineUpdateSemiregular() {
     // (TODO: Any semi-regular tasks and updates.)
 
+
+
+
+
+
     // Debug output and call this function again in 30 seconds
     console.log("Engine updated (semi-regular).");
     setTimeout(EngineUpdateSemiregular, 30000);
@@ -81,11 +87,39 @@ function EngineUpdateSemiregular() {
 function EngineUpdateIrregular() {
     // (TODO: Any irregular tasks and updates.)
 
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.aktve-app.com/me/matches' + '?token=' + APITestToken, //Change to actual facebook token
+        dataType: 'json',
+        context: this, // Make the callaback function's `this` variable point to this User object
+        success: function (data) {
+            console.log(data);
+
+
+            $.each(data.Data.matches, function (key, value) { // First Level
+                $.each(value.participants, function (v) {
+                    if (v != 0) //Not equal to me CHANGE TO ACTUAL CURRENT USER ID
+                    {
+                        g_user_cache.RetrieveUser(v);
+
+                    }
+                });
+            });
+        }
+    });
+
     // Trigger a UserCache update so that we get an updated representation of
     // all User's that we have cached
     g_user_cache.Update();
+
+    // If the following pages have loaded yet, make sure they are updated to
+    // show the latest data
+    if (typeof matches_page != "undefined") {
+        matches_page.PopulateMatchesList();
+    }
 
     // Debug output and call this function again in 60 seconds
     console.log("Engine updated (irregular).");
     setTimeout(EngineUpdateIrregular, 60000);
 }
+
