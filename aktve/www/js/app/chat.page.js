@@ -29,7 +29,7 @@ class ChatPage {
 
         $.ajax({ //TODO: Put message data into array that will be handled.
             type: 'GET',
-            url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APITestToken, //
+            url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APIUserToken, //
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -102,7 +102,7 @@ class ChatPage {
             // new message.)
             $.ajax({
                 type: 'post',
-                url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=" + APITestToken, //Change to actual facebook token
+                url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=" + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
                 data: { 'message': messageText}, 
                 context: this, // Make the callaback function's `this` variable point to this User object

@@ -1,7 +1,7 @@
 // Create a global User object for the app's user
 let g_app_user = new User();
 
-let APITestToken = 'a1b2c3d4e5f6g7h8i9j';
+let APIUserToken;
 
 let g_user_cache = new UserCache();
 
@@ -16,6 +16,10 @@ $(document).on("deviceready", function () {
 
     //Facebook API Connection
 
+
+
+
+    
     window.fbAsyncInit = function () {
         FB.init({
             appId: '1946946788868264',
@@ -24,11 +28,19 @@ $(document).on("deviceready", function () {
             version: 'v2.8'
         });
 
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response);
-        });  
+        fbLogoutUser();
 
-        PopulateUser();
+
+       
+
+        FB.getLoginStatus(function (response) {
+
+            statusChangeCallback(response);
+        });
+
+        
+
+        //PopulateUser();
 
 
         FB.AppEvents.logPageView();
@@ -104,7 +116,7 @@ function EngineUpdateIrregular() {
     //Update Cache with any new potential users
     $.ajax({
         type: 'GET',
-        url: 'https://api.aktve-app.com/potentials' + '?token=' + APITestToken, //Change to actual facebook token
+        url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //Change to actual facebook token
         dataType: 'json',
         context: this,
         success: function (data) {
@@ -121,7 +133,7 @@ function EngineUpdateIrregular() {
     //Update the Cache with all matched users
     $.ajax({
         type: 'GET',
-        url: 'https://api.aktve-app.com/me/matches' + '?token=' + APITestToken, //Change to actual facebook token
+        url: 'https://api.aktve-app.com/me/matches' + '?token=' + APIUserToken, //Change to actual facebook token
         dataType: 'json',
         context: this, // Make the callaback function's `this` variable point to this User object
         success: function (data) {
@@ -165,7 +177,32 @@ function statusChangeCallback(response) {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        //Add real Token
+
+      
+
+        var FBUserID = response.authResponse.userID;
+        var fb_access_token = response.authResponse.accessToken;
+        console.log(fb_access_token);
+        var dataForPost = "fb_userid=" + FBUserID + "&fb_access_token=" + fb_access_token;
+        console.log(dataForPost);
+
+      $.ajax({
+      type: 'POST',
+      url: "https://api.aktve-app.com/login",
+      data: dataForPost,
+      dataType: "text",
+      context: this,
+      success: function (data) {
+
+          console.log(data);
+
+          APIUserToken = data.Data.token;
+          console.log(APIUserToken);
+     
+      }
+});
+
+
         myApp.loginScreen("#LoginScreen", false);
         myApp.closeModal("#LoginScreen");
         mainView.router.loadPage("swipe.html");
@@ -180,15 +217,15 @@ function statusChangeCallback(response) {
 
 //Logout user. Need to add this as a button in settings page.
 
-//function fbLogoutUser() {
-//    FB.getLoginStatus(function (response) {
-//        if (response && response.status === 'connected') {
-//            FB.logout(function (response) {
-//                document.location.reload();
-//            });
-//        }
-//    });
-//}
+function fbLogoutUser() {
+    FB.getLoginStatus(function (response) {
+        if (response && response.status === 'connected') {
+            FB.logout(function (response) {
+                document.location.reload();
+            });
+        }
+    });
+}
 
 
 //Check the Login state. Used in index.html to navigate to swipe page after login.

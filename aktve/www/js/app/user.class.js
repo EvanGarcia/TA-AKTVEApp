@@ -112,7 +112,7 @@ class User {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + this._id  + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + this._id  + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callback function's `this` variable point to this User object
 
