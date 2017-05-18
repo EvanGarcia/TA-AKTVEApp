@@ -56,7 +56,7 @@ class ProfilePage {
         $("#ProfileName").html(this._user.name + ", " + this._user.age); // Set to ?? initialy incase the ajax call fails
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/me' + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/me' + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
