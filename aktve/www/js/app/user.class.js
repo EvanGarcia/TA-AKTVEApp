@@ -23,7 +23,9 @@ class User {
                     MyId = data.Data.id;
                     this._id = data.Data.id;
                     this._name = data.Data.name;
-                    this._age = data.Dataage;
+
+                    this._age = data.Data.age;
+
                     this._latitude = "";       //data.Data.user.latitude;
                     this._longitude = "";     //data.Data.user.longitude;
                     this._last_active = new Date(data.Data.last_active);
