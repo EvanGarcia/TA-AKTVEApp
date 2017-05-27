@@ -11,8 +11,7 @@ let MyId;
 // successfully.
 $(document).on("deviceready", function () {
     // Start watching the user's location
-    var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
-    console.log("navigator.geolocation is now watching the user's location");
+    
 
 
     //Facebook API Connection
@@ -48,7 +47,6 @@ $(document).on("deviceready", function () {
     }(document, 'script', 'facebook-jssdk'));
 
     
-
     // Begin the engine
     EngineUpdateRegular();
     EngineUpdateSemiregular();
@@ -193,6 +191,11 @@ function statusChangeCallback(response) {
               console.log(APIUserToken);
 
               g_app_user = new User();
+
+              var watchID = navigator.geolocation.watchPosition(onGeolocationChange, onGeolocationFail, { timeout: 30000 });
+              console.log("navigator.geolocation is now watching the user's location");
+
+
               myApp.loginScreen("#LoginScreen", false);
               myApp.closeModal("#LoginScreen");
               mainView.router.loadPage("swipe.html");
