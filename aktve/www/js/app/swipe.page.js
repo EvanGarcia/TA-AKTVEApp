@@ -2,24 +2,20 @@
 // functions for the "swipe" page.
 // DUE TO SCOPING issues, the code inside each handle function is duplicated - Inside handlelike and handledislike cannot access outside  
 class SwipePage {
-    constructor() {
-        this.potentials = [];
-    }
-
 
     Init() {
         // Create some events to process user interaction
         // (TODO: Add in touch/swipe events that call these same functions. jQuery
         // makes this very easy.)
-        
+
         $("#SwipeLikeButton").click(swipe_page.handleLike);
         $("#SwipeDislikeButton").click(swipe_page.handleDislike);
-        
+
         $("#profPic").click(function () {
             clickedProf = 1;
             $.ajax({
                 type: 'GET',
-                url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+                url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
@@ -114,27 +110,22 @@ class SwipePage {
         });
 
         // Below code gets first potential user and puts them on the stack of cards
-        $.ajax({ 
+        $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
-                this.potentials = data.Data.potential_user_ids;
-                console.log(this.potentials);
+                potentials = data.Data.potential_user_ids;
             },
             async: false
         });
 
-        /*
-        console.log(this.potentials[0]);
-        console.log(jQuery.type(this.potentials));
-
-        var asf = 'https://api.aktve-app.com/users/' + this.potentials[0] + '?token=' + APIUserToken;
+        console.log(potentials);
 
         $.ajax({
             type: 'GET',
-            url: asf,
+            url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -180,16 +171,15 @@ class SwipePage {
                 }
             }
         });
-        */
     }
 
 
     // handleLike() is a handler for the event of liking another user.
     handleLike() {
- 
+
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APIUserToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + potentials[pontentialIndex] + "/feeling?token=" + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "like" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -203,7 +193,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -222,32 +212,27 @@ class SwipePage {
                     $.each(data.Data, function (key, value) { // First Level
                         $.each(value.interests, function (k, v) {  // The contents inside stars
                             document.getElementById("SwipeInterests").
-                        innerHTML += "<div class=\"chip\">\n<div class=\"chip-media bg-gray\">" + v + "</div>\n<div class=\"chip-label\">"+ k +"</div></div>";
+                        innerHTML += "<div class=\"chip\">\n<div class=\"chip-media bg-gray\">" + v + "</div>\n<div class=\"chip-label\">" + k + "</div></div>";
                         });
                     });
                     $("#SwipeDetails").html("");
 
-                    for (var i = 0; i < data.Data.user.tags.length; i++)
-                    {
-                        if (data.Data.user.tags[i] == "friends_men")
-                        {
+                    for (var i = 0; i < data.Data.user.tags.length; i++) {
+                        if (data.Data.user.tags[i] == "friends_men") {
                             document.getElementById("SwipeDetails").
                         innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
-                        } else if (data.Data.user.tags[i] == "friends_women")
-                        {
+                        } else if (data.Data.user.tags[i] == "friends_women") {
                             document.getElementById("SwipeDetails").
                         innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_women")
-                        {
+                        } else if (data.Data.user.tags[i] == "dates_women") {
                             document.getElementById("SwipeDetails").
                         innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_men")
-                        {
+                        } else if (data.Data.user.tags[i] == "dates_men") {
                             document.getElementById("SwipeDetails").
                         innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
                         }
                     }
-                    
+
                 }
             }
         });
@@ -255,10 +240,10 @@ class SwipePage {
 
     // handleDislike() is a handler for the event of disliking another user.
     handleDislike() {
-       
+
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APIUserToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + potentials[pontentialIndex] + "/feeling?token=" + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "dislike" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -272,7 +257,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -321,10 +306,11 @@ class SwipePage {
 
 // Instantiate a model/controller for the page
 let swipe_page = new SwipePage();
+let potentials = [];
 var pontentialIndex = 0;
 var clickedProf = 0;
 // Perform necessary steps once the page is loaded.
 myApp.onPageInit('swipe', function (page) {
     swipe_page.Init();
-    
+
 });
