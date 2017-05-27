@@ -15,7 +15,7 @@ class SwipePage {
             clickedProf = 1;
             $.ajax({
                 type: 'GET',
-                url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APITestToken, //Change to actual facebook token
+                url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
@@ -27,7 +27,7 @@ class SwipePage {
 
                         $.ajax({
                             type: 'GET',
-                            url: 'https://api.aktve-app.com/me' + '?token=' + APITestToken, //Change to actual facebook token
+                            url: 'https://api.aktve-app.com/me' + '?token=' + APIUserToken, //Change to actual facebook token
                             dataType: 'json',
                             context: this, // Make the callaback function's `this` variable point to this User object
                             success: function (data) {
@@ -112,7 +112,7 @@ class SwipePage {
         // Below code gets first potential user and puts them on the stack of cards
         $.ajax({ 
             type: 'GET',
-            url: 'https://api.aktve-app.com/potentials' + '?token=' + APITestToken, //
+            url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -125,7 +125,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -179,7 +179,7 @@ class SwipePage {
  
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APITestToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "like" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -193,7 +193,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -248,7 +248,7 @@ class SwipePage {
        
         $.ajax({
             type: 'put',
-            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APITestToken, //Change to actual facebook token
+            url: "https://api.aktve-app.com/users/" + pontentialIndex + "/feeling?token=" + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             data: { 'feeling': "dislike" },
             context: this, // Make the callaback function's `this` variable point to this User object
@@ -262,7 +262,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APITestToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
