@@ -1,10 +1,11 @@
 // Create a global User object for the app's user
-let g_app_user = new User();
+let g_app_user;
 
-let APIUserToken;
+let APIUserToken = "APIKEY";
 
 let g_user_cache = new UserCache();
 
+let MyId;
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
@@ -16,22 +17,16 @@ $(document).on("deviceready", function () {
 
     //Facebook API Connection
 
-
-
-
     
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '1946946788868264',
+            appId: '394645667578932',
             cookie: true,
             xfbml: true,
             version: 'v2.8'
         });
 
-        fbLogoutUser();
-
-
-       
+        fbLogoutUser();  
 
         FB.getLoginStatus(function (response) {
 
@@ -39,8 +34,6 @@ $(document).on("deviceready", function () {
         });
 
         
-
-        //PopulateUser();
 
 
         FB.AppEvents.logPageView();
@@ -141,7 +134,8 @@ function EngineUpdateIrregular() {
 
             $.each(data.Data.matches, function (key, value) { // First Level
                 $.each(value.participants, function (v) {
-                    if (v != 0) //Not equal to me CHANGE TO ACTUAL CURRENT USER ID
+                    console.log(MyId);
+                    if (v != MyId) //Not equal to me CHANGE TO ACTUAL CURRENT USER ID
                     {
                         g_user_cache.RetrieveUser(v);
 
@@ -178,35 +172,37 @@ function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
 
-      
-
         var FBUserID = response.authResponse.userID;
+        console.log(FBUserID);
         var fb_access_token = response.authResponse.accessToken;
         console.log(fb_access_token);
         var dataForPost = "fb_userid=" + FBUserID + "&fb_access_token=" + fb_access_token;
         console.log(dataForPost);
 
       $.ajax({
-      type: 'POST',
-      url: "https://api.aktve-app.com/login",
-      data: dataForPost,
-      dataType: "text",
-      context: this,
-      success: function (data) {
+          type: 'POST',
+          url: "https://api.aktve-app.com/login",
+          data: dataForPost,
+          dataType: "json",
+          context: this,
+          success: function (data) {
 
-          console.log(data);
+              console.log(data);
 
-          APIUserToken = data.Data.token;
-          console.log(APIUserToken);
+              APIUserToken = data.Data.token;
+              console.log(APIUserToken);
+
+              g_app_user = new User();
+              myApp.loginScreen("#LoginScreen", false);
+              myApp.closeModal("#LoginScreen");
+              mainView.router.loadPage("swipe.html");
      
-      }
-});
+          }
+      });
+    
+      
 
-
-        myApp.loginScreen("#LoginScreen", false);
-        myApp.closeModal("#LoginScreen");
-        mainView.router.loadPage("swipe.html");
-
+       
     } else {
         // The person is not logged into your app or we are unable to tell.
         myApp.loginScreen("#LoginScreen", false);
@@ -255,11 +251,66 @@ function checkLoginState()
     
 //    if(checkLoginState() === true)
 //    {
-//        FB.api('/me', function (response) {
-            
-//            g_app_user = new User(response.id, response.name, 21, [new PersonalInterest("Hiking", 2), new PersonalInterest("Lifting", 4), new PersonalInterest("Skiing", 3)], ["friends_men", "friends_women", "dates_men"], "Hey!", [], [new Match(320, [null, 1], [new Message(4003, null, "Hey man!", new Date(), false), new Message(4293, 1, "Whatsup?", new Date(), false)]), new Match(344, [null, 2], [])], 47.6062, 47.6062, new Date("3/4/2017"));
+
+//        console.log(APIUserToken);
+
+//        $.ajax({
+//            type: 'GET',
+//            url: 'https://api.aktve-app.com/me?token=' + APIUserToken, //Change to actual facebook token
+//            dataType: 'json',
+//            context: this, // Make the callback function's `this` variable point to this User object
+//            success: function (data) {
+//                console.log(data);
+//                this._id = data.Data.user.id;
+//                this._name = data.Data.user.name;
+//                this._age = data.Data.user.age;
+//                this._latitude = data.Data.user.latitude;
+//                this._longitude = data.Data.user.longitude;
+//                this._last_active = new Date(data.Data.user.last_active);
+
+//                this._bio = data.Data.user.bio;
+
+//                var interestsArray = [];
+//                $.each(data.Data, function (key, value) {
+//                    $.each(value.interests, function (k, v) {
+//                        interestsArray.push(new PersonalInterest(k, v));
+//                    });
+//                });
+
+//                this._interests = interestsArray;
+
+
+//                var tagsArray = [];
+//                $.each(data.Data, function (key, value) {
+//                    $.each(value.tags, function (k, v) {
+//                        tagsArray.push(v);
+//                    });
+//                });
+
+//                this._tags = tagsArray;
+
+
+//                var imagesArray = [];
+//                $.each(data.Data, function (key, value) {
+//                    $.each(value.images, function (k, v) {
+//                        imagesArray.push(v);
+//                    });
+//                });
+
+//                this._images = imagesArray;
+
+
+
+
+//                g_app_user = new User(response.id, response.name, response.age, [], [], "", imagesArray, [], 0, 0, new Date(response.last_active));
+
+
+//            }
 
 //        });
+
+
+ 
 //    }
 
 //}
