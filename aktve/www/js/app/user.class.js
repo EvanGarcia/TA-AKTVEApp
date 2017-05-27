@@ -20,13 +20,13 @@ class User {
                 context: this, // Make the callback function's `this` variable point to this User object
                 success: function (data) {
                     console.log(data);
-                    MyId = data.Data.user.id;
-                    this._id = data.Data.user.id;
-                    this._name = data.Data.user.name;
-                    this._age = data.Data.user.age;
+                    MyId = data.Data.id;
+                    this._id = data.Data.id;
+                    this._name = data.Data.name;
+                    this._age = data.Dataage;
                     this._latitude = "";       //data.Data.user.latitude;
                     this._longitude = "";     //data.Data.user.longitude;
-                    this._last_active = new Date(data.Data.user.last_active);
+                    this._last_active = new Date(data.Data.last_active);
 
                     this._bio = "";    //data.Data.user.bio;
 

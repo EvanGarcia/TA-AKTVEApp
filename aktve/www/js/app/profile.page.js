@@ -104,7 +104,7 @@ class ProfilePage {
             else if (this._user.tags[i] == "dates_men" || this._user.tags[i] == "dates_women") { // If the tag is a "date" tag
                 tags_string += "<div class=\"chip bg-red\">\n";
                 tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
-                tags_string += "\t<div class=\"chip-label\">" + ((this._user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                tags_string += "\t<div class=\"chip-label\">" + ((this._user.tags[i] == "dates_men") ? "Men" : "Women") + "</div>\n";
                 tags_string += "</div>\n";
             }
         }
