@@ -2,12 +2,16 @@
 // functions for the "swipe" page.
 // DUE TO SCOPING issues, the code inside each handle function is duplicated - Inside handlelike and handledislike cannot access outside  
 class SwipePage {
+    constructor() {
+        this.potentials = [];
+    }
+
 
     Init() {
         // Create some events to process user interaction
         // (TODO: Add in touch/swipe events that call these same functions. jQuery
         // makes this very easy.)
-
+        
         $("#SwipeLikeButton").click(swipe_page.handleLike);
         $("#SwipeDislikeButton").click(swipe_page.handleDislike);
         
@@ -15,7 +19,7 @@ class SwipePage {
             clickedProf = 1;
             $.ajax({
                 type: 'GET',
-                url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+                url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
@@ -116,16 +120,21 @@ class SwipePage {
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
-                potentials = data.Data.potential_user_ids;    
+                this.potentials = data.Data.potential_user_ids;
+                console.log(this.potentials);
             },
             async: false
         });
 
-        console.log(potentials);
+        /*
+        console.log(this.potentials[0]);
+        console.log(jQuery.type(this.potentials));
+
+        var asf = 'https://api.aktve-app.com/users/' + this.potentials[0] + '?token=' + APIUserToken;
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APIUserToken, //Change to actual facebook token
+            url: asf,
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -171,6 +180,7 @@ class SwipePage {
                 }
             }
         });
+        */
     }
 
 
@@ -193,7 +203,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -262,7 +272,7 @@ class SwipePage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/users/' + this.potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -311,7 +321,6 @@ class SwipePage {
 
 // Instantiate a model/controller for the page
 let swipe_page = new SwipePage();
-let potentials = [];
 var pontentialIndex = 0;
 var clickedProf = 0;
 // Perform necessary steps once the page is loaded.
