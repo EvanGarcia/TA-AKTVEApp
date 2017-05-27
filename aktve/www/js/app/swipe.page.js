@@ -120,16 +120,15 @@ class SwipePage {
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
-                console.log(data);
-                console.log(JSON.parse(data));
-                this.potentials = JSON.parse(data).Data.potential_user_ids;
+                this.potentials = data.Data.potential_user_ids;
                 console.log(this.potentials);
             },
             async: false
         });
 
-        console.log(this.potentials);
-        console.log(Array.isArray(this.potentials));
+        /*
+        console.log(this.potentials[0]);
+        console.log(jQuery.type(this.potentials));
 
         var asf = 'https://api.aktve-app.com/users/' + this.potentials[0] + '?token=' + APIUserToken;
 
@@ -181,6 +180,7 @@ class SwipePage {
                 }
             }
         });
+        */
     }
 
 

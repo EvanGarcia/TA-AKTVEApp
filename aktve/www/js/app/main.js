@@ -7,37 +7,48 @@ let g_user_cache = new UserCache();
 
 let MyId;
 
+
+
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
 $(document).on("deviceready", function () {
-    // Start watching the user's location
-    
-
-
     //Facebook API Connection
-
-    
     window.fbAsyncInit = function () {
+        console.log("Facebook connection initializing...");
+
+        // Facebook Login Callback
+        function checkLoginState() {
+            console.log("Facebook status change callback triggered...");
+
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+
+            //FB.AppEvents.logPageView();
+        }
+
+        // Subscribe to the event that gets fired whenever a user logs in/out
+        FB.Event.subscribe('auth.statusChange', checkLoginState);
+
+        // Initialize the connection to Facebook
         FB.init({
             appId: '394645667578932',
             cookie: true,
             xfbml: true,
-            version: 'v2.8'
+            version: 'v2.8',
+            status: true,
+            statusChangeCallback: checkLoginState,
         });
 
-        fbLogoutUser();  
-
-        FB.getLoginStatus(function (response) {
-
-            statusChangeCallback(response);
-        });
-
-        
-
-
-        FB.AppEvents.logPageView();
+        // Open login screen if we aren't already logged in
+        //FB.getLoginStatus(function (response) {
+        //    if (response.status != "connected") {
+                myApp.loginScreen("#LoginScreen", false);
+        //    }
+        //});
     };
 
+    // Load the Facebook SDK
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) { return; }
@@ -105,6 +116,12 @@ function EngineUpdateSemiregular() {
 // used to perform tasks that almost don't matter.
 function EngineUpdateIrregular() {
     //Update Cache with any new potential users
+    if(APIUserToken == "APIKEY")
+    {
+        setTimeout(EngineUpdateIrregular, 60000);
+        return;
+    }
+
     $.ajax({
         type: 'GET',
         url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //Change to actual facebook token
@@ -199,14 +216,15 @@ function statusChangeCallback(response) {
               myApp.loginScreen("#LoginScreen", false);
               myApp.closeModal("#LoginScreen");
               mainView.router.loadPage("swipe.html");
-     
-          }
+             
+          },
+          async: false
       });
     
       
 
        
-    } else {
+    } else { // OTHERWISE, LOGIN FAILED!
         // The person is not logged into your app or we are unable to tell.
         myApp.loginScreen("#LoginScreen", false);
     }
