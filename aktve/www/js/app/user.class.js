@@ -26,30 +26,30 @@ class User {
 
                     this._age = data.Data.age;
 
-                    this._latitude = "";       //data.Data.user.latitude;
-                    this._longitude = "";     //data.Data.user.longitude;
+                    this._latitude = data.Data.user.latitude;
+                    this._longitude = data.Data.user.longitude;
                     this._last_active = new Date(data.Data.last_active);
 
-                    this._bio = "";    //data.Data.user.bio;
+                    this._bio = data.Data.user.bio;
 
-                    //var interestsArray = [];
-                    //$.each(data.Data, function (key, value) {
-                    //    $.each(value.interests, function (k, v) {
-                    //        interestsArray.push(new PersonalInterest(k, v));
-                    //    });
-                    //});
+                    var interestsArray = [];
+                    $.each(data.Data, function (key, value) {
+                        $.each(value.interests, function (k, v) {
+                            interestsArray.push(new PersonalInterest(k, v));
+                        });
+                    });
 
-                    this._interests = []; //interestsArray;
+                    this._interests = interestsArray;
 
 
-                    //var tagsArray = [];
-                    //$.each(data.Data, function (key, value) {
-                    //    $.each(value.tags, function (k, v) {
-                    //        tagsArray.push(v);
-                    //    });
-                    //});
+                    var tagsArray = [];
+                    $.each(data.Data, function (key, value) {
+                        $.each(value.tags, function (k, v) {
+                            tagsArray.push(v);
+                        });
+                    });
 
-                    this._tags = []; //tagsArray;
+                    this._tags = tagsArray;
 
 
                     var imagesArray = [];

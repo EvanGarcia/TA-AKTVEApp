@@ -160,6 +160,61 @@ function EngineUpdateIrregular() {
         }
     });
 
+    //Update the Cache with all matched users
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.aktve-app.com/me/matches?token=' + APIUserToken, //Change to actual facebook token
+        dataType: 'json',
+        context: this, // Make the callaback function's `this` variable point to this User object
+        success: function (data) {
+            console.log(data);
+            var MatchID = data.Data.match.id;
+            var MatchParticipants = data.Data.match.participants;
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.aktve-app.com/me/matches/' + MatchID + '/messages?token=' + APIUserToken, //Change to actual facebook token
+                dataType: 'json',
+                context: this, // Make the callaback function's `this` variable point to this User object
+                success: function (data) {
+                    console.log(data);
+                   
+                    var MessagesArray = [];
+                    $.each(data.Data, function (key, value) { 
+                        $.each(value.messages, function (k, v) {  
+                            //imagesArray.push(v);
+                        });
+                    });
+
+
+
+
+                    //g_app_user.matches.push(new Match(data.Data.match.id, ));
+                }
+            });
+
+
+
+
+
+
+
+
+            g_app_user.matches.push(new Match(data.Data.match.id, ));
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
     // Trigger a UserCache update so that we get an updated representation of
     // all User's that we have cached
     g_user_cache.Update();
