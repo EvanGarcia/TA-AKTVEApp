@@ -3,7 +3,7 @@
     <div class="navbar-inner">
         <!--Back button-->
         <div class="left">
-            <a href="#" class="back link">
+            <a href="#" class="back link" id="settingsback">
                 <i class="icon icon-back"></i>
                 <span>Back</span>
             </a>
@@ -16,7 +16,7 @@
 <!--Pages-->
 <div class="pages navbar-through toolbar-through">
     <!--Swipe Page-->
-    <div data-page="swipe" class="page">
+    <div data-page="settings" class="page">
         <div class="page-content">
             <!--Privacy Settings-->
             <div class="content-block-title">Privacy</div>
@@ -35,7 +35,7 @@
                                 <div class="item-title label">Location</div>
                                 <div class="item-input">
                                     <label class="label-switch _floatright">
-                                        <input type="checkbox" checked>
+                                        <input id="locationsharing" type="checkbox" checked>
                                         <div class="checkbox"></div>
                                     </label>
                                     <div class="_clearfix"></div>
@@ -63,7 +63,7 @@
                                 <div class="item-title label">Men</div>
                                 <div class="item-input">
                                     <label class="label-switch _floatright">
-                                        <input type="checkbox" checked>
+                                        <input id="menbox" type="checkbox" checked>
                                         <div class="checkbox"></div>
                                     </label>
                                     <div class="_clearfix"></div>
@@ -77,7 +77,7 @@
                                 <div class="item-title label">Women</div>
                                 <div class="item-input">
                                     <label class="label-switch _floatright">
-                                        <input type="checkbox" checked>
+                                        <input id="womenbox" type="checkbox" checked>
                                         <div class="checkbox"></div>
                                     </label>
                                     <div class="_clearfix"></div>
@@ -105,7 +105,7 @@
                                 <div class="item-title label">Men</div>
                                 <div class="item-input">
                                     <label class="label-switch _floatright">
-                                        <input type="checkbox">
+                                        <input id="mendatebox" type="checkbox">
                                         <div class="checkbox"></div>
                                     </label>
                                     <div class="_clearfix"></div>
@@ -119,7 +119,7 @@
                                 <div class="item-title label">Women</div>
                                 <div class="item-input">
                                     <label class="label-switch _floatright">
-                                        <input type="checkbox">
+                                        <input id="womendatebox" type="checkbox">
                                         <div class="checkbox"></div>
                                     </label>
                                     <div class="_clearfix"></div>
@@ -138,7 +138,7 @@
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label">Interest</div>
-                                <div class="item-input">
+                                <div class="item-input" id="activityName">
                                     <select>
                                         <option value="Surfing">Surfing</option>
                                         <option value="Hiking">Hiking</option>
@@ -154,7 +154,7 @@
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label">Experience</div>
-                                <div class="item-input">
+                                <div class="item-input" id="activityLevel">
                                     <select>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -167,7 +167,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#" class="button button-round active"><i class="fa fa-plus" aria-hidden="true"></i> Add Interest</a>
+                        <a href="#" class="button button-round active" id="addInterest"><i class="fa fa-plus" aria-hidden="true"></i> Add Interest</a>
                     </li>
                 </ul>
             </div>
