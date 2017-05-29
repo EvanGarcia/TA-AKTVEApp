@@ -13,6 +13,7 @@ class SwipePage {
 
         $("#profPic").click(function () {
             clickedProf = 1;
+            console.log("Prof Clicked");
             $.ajax({
                 type: 'GET',
                 url: 'https://api.aktve-app.com/users/' + potentials[pontentialIndex] + '?token=' + APIUserToken, //Change to actual facebook token

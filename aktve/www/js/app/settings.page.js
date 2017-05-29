@@ -40,10 +40,28 @@ class SettingsPage {
                     console.log(data.Success.error);
                 }
             });
-          
+
+            var interestObj = new Object();
+            for (var i = 0; i < interArr.length; i++) {
+                interestObj[interArr[i]] = skillArr[i];
+            }
+            console.log(interestObj);
+
+            $.ajax({
+                type: 'put',
+                url: "https://api.aktve-app.com/me?token=" + APIUserToken, //Change to actual facebook token
+                dataType: 'json',
+                data: { 'interests': interestObj },
+                context: this, // Make the callaback function's `this` variable point to this User object
+                success: function (data) {
+                    console.log(data.Success.success);
+                    console.log(data.Success.error);
+                }
+            });   
     }
 
     addInterest() {
+        // TODO: PUSH INTERESTS UP TO SERVER
         interArr.push($("#activityName").find("option:selected").text());
         skillArr.push($("#activityLevel").find("option:selected").text());
     }
