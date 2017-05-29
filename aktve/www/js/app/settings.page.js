@@ -8,10 +8,11 @@ class SettingsPage {
     Init() {
         $("#settingsback").click(settings_page.storeSettings);
         $("#addInterest").click(settings_page.addInterest);
-        // TODO: Get values from server and update UI accordingly
+        $("#LogoutButton").click(settings_page.logoutHelp);
+        
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/me/settings?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/me/settings?token=' + APIUserToken, 
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -26,11 +27,11 @@ class SettingsPage {
                 }
                 if (data.Data.friendwomen)
                 {
-                    $("#menbox").prop('checked', true)
+                    $("#womenbox").prop('checked', true)
                 }
                 if (data.Data.friendmen)
                 {
-                    $("#womenbox").prop('checked', true)
+                    $("#menbox").prop('checked', true)
                 }
                 if (data.Data.datemen) {
                     $("#mendatebox").prop('checked', true)
@@ -43,7 +44,7 @@ class SettingsPage {
 
         $.ajax({
             type: 'GET',
-            url: 'https://api.aktve-app.com/me?token=' + APIUserToken, //Change to actual facebook token
+            url: 'https://api.aktve-app.com/me?token=' + APIUserToken, 
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
@@ -61,10 +62,9 @@ class SettingsPage {
                 $("#SettingsInterests").html(interests_string);
                 console.log(interArr);
 
-                //$("#ProfileBio").html(data.Data.user.bio); // TODO aa
+                $("#bioId").html("<textarea placeholder=\"Bio goes here...\">" + data.Data.bio + "</textarea>"); 
             }
         });
-
     } 
 
     storeSettings() {
@@ -98,35 +98,36 @@ class SettingsPage {
                 }
             });
 
-            var interestObj = new Object();
+            var interestObj = "{";
             for (var i = 0; i < interArr.length; i++) {
-                interestObj[interArr[i]] = skillArr[i];
+                interestObj += "\"";
+                interestObj += interArr[i];
+                interestObj += "\":";
+                interestObj += skillArr[i];
+                if (i!=(interArr.length-1))
+                {
+                    interestObj += ","
+                }
             }
+            interestObj += "}";
             console.log(interestObj);
 
             var bio = ($("#bioId").find('textarea').val());
-            if(interArr.length!=0){
+
             $.ajax({
                 type: 'put',
-                url: "https://api.aktve-app.com/me?token=" + APIUserToken, //Change to actual facebook token
+                url: "https://api.aktve-app.com/me?token=" + APIUserToken + "&interests=" + interestObj + "&bio=" + bio, //Change to actual facebook token
                 dataType: 'json',
-                data: {
-                    'interests': interestObj,
-                    'bio' : bio
-                },
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
-                    console.log(data.Success.success);
-                    console.log(data.Success.error);
+                    console.log(data);
                 }
             });
             
             console.log(bio);
-        }
     }
-
+    // TODO: Remove interests from the server and UI when X is clicked
     addInterest() {
-        // TODO: PUSH INTERESTS UP TO SERVER
         interArr.push($("#activityName").find("option:selected").text());
         skillArr.push($("#activityLevel").find("option:selected").text());
 
@@ -137,6 +138,10 @@ class SettingsPage {
         newInterest += "</div>\n";
         $("#SettingsInterests").html(newInterest);
     }
+
+    logoutHelp() {
+        fbLogoutUser()
+    }
 }
 
 // Instantiate a model/controller for the page
@@ -145,7 +150,6 @@ let interArr = [];
 let skillArr = [];
 // Perform necessary steps once the page is loaded.
 myApp.onPageInit('settings', function (page) {
-    console.log("we here");
     settings_page.Init();
 
 });

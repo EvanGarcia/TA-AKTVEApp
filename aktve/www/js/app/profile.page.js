@@ -28,7 +28,7 @@ class ProfilePage {
             // Hid the settings button for non-app User's profiles
             $("#SettingsButton").hide();
         }
-
+        console.log("Im getting called");
         $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/me' + '?token=' + APIUserToken, //Change to actual facebook token
@@ -67,7 +67,8 @@ class ProfilePage {
                         interests_string += "\t<div class=\"chip-label\">" + k + "</div>\n";
                         interests_string += "</div>\n";
                     });
-                $("#ProfileInterests").html(interests_string);
+                    $("#ProfileInterests").html(interests_string);
+                    console.log(data.Data);
 
                 let tags_string = "";
                 for (var i = 0; i < data.Data.tags.length; i++) {
@@ -97,7 +98,6 @@ class ProfilePage {
 
 // Instantiate a model/controller for the page
 let profile_page = new ProfilePage();
-
 // Perform necessary steps once the page is loaded.
 myApp.onPageInit('profile', function (page) {
     // Retrieve any necessary query string values
