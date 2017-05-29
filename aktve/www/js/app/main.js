@@ -125,6 +125,7 @@ function EngineUpdateRegular() {
                 for (var i = 0; i < data.Data.matches.length; i++) {
                     MatchesIDs[i] = data.Data.matches[i].id;
                     MatchesParticipants[i] = data.Data.matches[i].participants;
+                    g_user_cache.RetrieveUser(data.Data.matches[i].participants[1]);
                     console.log(MatchesIDs[i]);
                     console.log(MatchesParticipants[i]);
                 }
@@ -152,13 +153,14 @@ function EngineUpdateRegular() {
                                     onsole.log(MessagesMessage[i]);
                                     console.log(MessagesDate[i]);
 
-                                    MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i]);
+                                    MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
 
                                 }
 
 
 
                             }
+
                         }
                     });
 
@@ -167,33 +169,21 @@ function EngineUpdateRegular() {
                 for(var i = 0; i < data.Data.matches.length; i++)
                 {
 
-                    MatchesArray.push(new Match(MatchesIDs[i], MatchesParticipants[i]), MessagesArray[i]);
 
+                    MatchesArray.push(new Match(MatchesIDs[i], MatchesParticipants[i], MessagesArray[i]));
+
+                    console.log(MatchesArray);
                 }
 
                 g_app_user._matches = MatchesArray;
 
-                console.log(g_app_user._matches);
+                console.log(g_app_user.matches);
             }
 
 
         }
 
     });
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
 
 
     // Debug output and call this function again in 1 second
@@ -209,29 +199,7 @@ function EngineUpdateSemiregular() {
 
 
 
-    //Update the Cache with all matched users
-    $.ajax({
-        type: 'GET',
-        url: 'https://api.aktve-app.com/me/matches' + '?token=' + APIUserToken, //Change to actual facebook token
-        dataType: 'json',
-        context: this, // Make the callaback function's `this` variable point to this User object
-        success: function (data) {
-            console.log(data);
-
-            $.each(data.Data.matches, function (key, value) { // First Level
-                $.each(value.participants, function (v) {
-                    console.log(MyId);
-                    if (v != MyId) //Not equal to me CHANGE TO ACTUAL CURRENT USER ID
-                    {
-                        g_user_cache.RetrieveUser(v);
-
-                    }
-                });
-            });
-        }
-    });
-
-
+    
 
 
 

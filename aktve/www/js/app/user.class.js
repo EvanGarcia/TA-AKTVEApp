@@ -130,6 +130,12 @@ class User {
         return this._matches;
     }
 
+    set matches(matches) {
+        if (!isNaN(matches)) {
+            this._matches = matches;
+        }
+    }
+
     get latitude() {
         return this._latitude;
     }
