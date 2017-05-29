@@ -29,31 +29,6 @@ class ProfilePage {
             $("#SettingsButton").hide();
         }
 
-        // Parse the User's images into the page
-        let pictures_string = "";
-        pictures_string += "<div class=\"swiper-wrapper\" id=\"ProfilePictures\">";
-        for (var i = 0; i < this._user.images.length; i++) {
-            pictures_string += "\t<div class=\"swiper-slide\">";
-            pictures_string += "\t\t<img src=\"" + this._user.images[i] + "\" id=\"ProfilePicture" + i.toString() + "\" class=\"swiper-lazy app-profile-picture\">";
-            pictures_string += "\t\t<div class=\"preloader\"></div>";
-            pictures_string += "\t</div>";
-        }
-        pictures_string += "</div>";
-        pictures_string += "<div class=\"swiper-pagination\"></div>"
-        $("#ProfilePicturesSwiper").html(pictures_string);
-        myApp.swiper('#ProfilePicturesSwiper', {
-            preloadImages: false,
-            lazyLoading: true,
-            pagination: '.swiper-pagination',
-            speed: 400,
-            spaceBetween: 100
-        });
-
-        // Parse the User's basic data into the page
-        // (TODO: We need to actually determine the distance based on the user's
-        // latitude and longitude and the current latitude and longitude. This could
-        // probably end up being a class function or a global function.)
-        $("#ProfileName").html(this._user.name + ", " + this._user.age); // Set to ?? initialy incase the ajax call fails
         $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/me' + '?token=' + APIUserToken, //Change to actual facebook token
@@ -61,58 +36,62 @@ class ProfilePage {
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
                 console.log(data);
-                var R = 3959 ; // in miles
-                let y1 = data.Data.latitude;
-                let x1 = data.Data.longitude;
-                let x2 = this._user._longitude;
-                let y2 = this._user._latitude   
-                var dLat = (y2 - y1) * (Math.PI / 180);
-                var dLon = (x2 - x1) * (Math.PI / 180);
-                var lat1 = (y1) * (Math.PI / 180);
-                var lat2 = (y2) * (Math.PI / 180);
-                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
-                
-                $("#ProfileDistance").html(Math.round(d) + " Miles Away"); 
+                let pictures_string = "";
+                pictures_string += "<div class=\"swiper-wrapper\" id=\"ProfilePictures\">";
+                for (var i = 0; i < data.Data.images.length; i++) {
+                    pictures_string += "\t<div class=\"swiper-slide\">";
+                    pictures_string += "\t\t<img src=\"" + data.Data.images[i] + "\" id=\"ProfilePicture" + i.toString() + "\" class=\"swiper-lazy app-profile-picture\">";
+                    pictures_string += "\t\t<div class=\"preloader\"></div>";
+                    pictures_string += "\t</div>";
+                }
+                pictures_string += "</div>";
+                pictures_string += "<div class=\"swiper-pagination\"></div>"
+                $("#ProfilePicturesSwiper").html(pictures_string);
+                myApp.swiper('#ProfilePicturesSwiper', {
+                    preloadImages: false,
+                    lazyLoading: true,
+                    pagination: '.swiper-pagination',
+                    speed: 400,
+                    spaceBetween: 100
+                });
+
+                $("#ProfileName").html(data.Data.name + ", " + data.Data.age); // Set to ?? initialy incase the ajax call fails
+
+                $("#ProfileLastActive").html("Seen " + data.Data.last_active);
+                $("#ProfileBio").html(data.Data.bio);
+
+                let interests_string = "";
+                    $.each(data.Data.interests, function (k, v) {  // The contents inside stars
+                        interests_string += "<div class=\"chip\">\n";
+                        interests_string += "\t<div class=\"chip-media bg-gray\">" + v + "</div>\n";
+                        interests_string += "\t<div class=\"chip-label\">" + k + "</div>\n";
+                        interests_string += "</div>\n";
+                    });
+                $("#ProfileInterests").html(interests_string);
+
+                let tags_string = "";
+                for (var i = 0; i < data.Data.tags.length; i++) {
+                    if (data.Data.tags[i] == "friends_men" || data.Data.tags[i] == "friends_women") { // If the tag is a "friend" tag
+                        tags_string += "<div class=\"chip bg-blue\">\n";
+                        tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
+                        tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                        tags_string += "</div>\n";
+                    }
+                    else if (data.Data.tags[i] == "dates_men" || data.Data.tags[i] == "dates_women") { // If the tag is a "date" tag
+                        tags_string += "<div class=\"chip bg-red\">\n";
+                        tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
+                        tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                        tags_string += "</div>\n";
+                    }
+                }
+                $("#ProfileTags").html(tags_string);
+
+                var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + data.Data.latitude + "," + data.Data.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + data.Data.latitude + "," + data.Data.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;
+                $("#ProfileLocationMap").attr("src", google_map_url);
             }
         });
 
-        $("#ProfileLastActive").html("Seen " + this._user.last_active);
-        $("#ProfileBio").html(this._user.bio);
-
-        // Parse the User's interests into the page
-        let interests_string = "";
-        for (var i = 0; i < this._user.interests.length; i++) {
-            interests_string += "<div class=\"chip\">\n";
-            interests_string += "\t<div class=\"chip-media bg-gray\">" + this._user.interests[i].experience + "</div>\n";
-            interests_string += "\t<div class=\"chip-label\">" + this._user.interests[i].name + "</div>\n";
-            interests_string += "</div>\n";
-        }
-        $("#ProfileInterests").html(interests_string);
-
-        // Parse the User's tags into the page
-        let tags_string = "";
-        for (var i = 0; i < this._user.tags.length; i++) {
-            if (this._user.tags[i] == "friends_men" || this._user.tags[i] == "friends_women") { // If the tag is a "friend" tag
-                tags_string += "<div class=\"chip bg-blue\">\n";
-                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
-                tags_string += "\t<div class=\"chip-label\">" + ((this._user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
-                tags_string += "</div>\n";
-            }
-            else if (this._user.tags[i] == "dates_men" || this._user.tags[i] == "dates_women") { // If the tag is a "date" tag
-                tags_string += "<div class=\"chip bg-red\">\n";
-                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
-                tags_string += "\t<div class=\"chip-label\">" + ((this._user.tags[i] == "dates_men") ? "Men" : "Women") + "</div>\n";
-                tags_string += "</div>\n";
-            }
-        }
-        $("#ProfileTags").html(tags_string);
-
-        // Parse a map of the User's location into the page
-        var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + this._user.latitude + "," + this._user.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + this._user.latitude + "," + this._user.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;
-        $("#ProfileLocationMap").attr("src", google_map_url);
+        
     }
 }
 
