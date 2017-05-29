@@ -8,6 +8,38 @@ class SettingsPage {
     Init() {
         $("#settingsback").click(settings_page.storeSettings);
         $("#addInterest").click(settings_page.addInterest);
+        // TODO: Get values from server and update UI accordingly
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.aktve-app.com/me/settings?token=' + APIUserToken, //Change to actual facebook token
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                console.log(data.Success.success);
+                console.log(data.Success.error);
+                console.log(data.Data.sharelocation);
+                console.log(data.Data.friendmen);
+                console.log(data.Data.friendwomen);
+                if(data.Data.sharelocation)
+                {
+                    $("#locationsharing").prop('checked',true)
+                }
+                if (data.Data.friendwomen)
+                {
+                    $("#menbox").prop('checked', true)
+                }
+                if (data.Data.friendmen)
+                {
+                    $("#womenbox").prop('checked', true)
+                }
+                if (data.Data.datemen) {
+                    $("#mendatebox").prop('checked', true)
+                }
+                if (data.Data.datewomen) {
+                    $("#womendatebox").prop('checked', true)
+                }
+            }
+        });
     } 
 
     storeSettings() {
@@ -30,7 +62,7 @@ class SettingsPage {
                 data: {
                     'sharelocation': locisChecked,
                     'friendmen': menisChecked,
-                    'friendwomen': womendateisChecked,
+                    'friendwomen': womenisChecked,
                     'datemen': mendateisChecked,
                     'datewomen': womendateisChecked
                 },
@@ -47,6 +79,7 @@ class SettingsPage {
             }
             console.log(interestObj);
 
+            if(interArr.length!=0){
             $.ajax({
                 type: 'put',
                 url: "https://api.aktve-app.com/me?token=" + APIUserToken, //Change to actual facebook token
@@ -58,6 +91,7 @@ class SettingsPage {
                     console.log(data.Success.error);
                 }
             });   
+        }
     }
 
     addInterest() {
