@@ -40,6 +40,29 @@ class SettingsPage {
                 }
             }
         });
+
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.aktve-app.com/me?token=' + APIUserToken, //Change to actual facebook token
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                let interests_string = "";
+                $.each(data.Data.interests, function (k, v) {  // The contents inside stars
+                    if (interArr.indexOf(k)<0) {
+                        interArr.push(k);
+                        skillArr.push(v);
+                    }
+                    interests_string += "<div class=\"chip\">\n";
+                    interests_string += "\t<div class=\"chip-media bg-gray\">" + v + "</div>\n";
+                    interests_string += "\t<div class=\"chip-label\">" + k + "</div>\n";
+                    interests_string += "</div>\n";
+                });
+                $("#SettingsInterests").html(interests_string);
+                console.log(interArr);
+
+            }
+        });
     } 
 
     storeSettings() {
@@ -98,6 +121,13 @@ class SettingsPage {
         // TODO: PUSH INTERESTS UP TO SERVER
         interArr.push($("#activityName").find("option:selected").text());
         skillArr.push($("#activityLevel").find("option:selected").text());
+
+        let newInterest = $("#SettingsInterests").html();
+        newInterest += "<div class=\"chip\">\n";
+        newInterest += "\t<div class=\"chip-media bg-gray\">" + $("#activityLevel").find("option:selected").text() + "</div>\n";
+        newInterest += "\t<div class=\"chip-label\">" + $("#activityName").find("option:selected").text() + "</div>\n";
+        newInterest += "</div>\n";
+        $("#SettingsInterests").html(newInterest);
     }
 }
 
