@@ -40,12 +40,12 @@ $(document).on("deviceready", function () {
             statusChangeCallback: checkLoginState,
         });
 
-        // Open login screen if we aren't already logged in
-        //FB.getLoginStatus(function (response) {
-        //    if (response.status != "connected") {
+         //Open login screen if we aren't already logged in
+        FB.getLoginStatus(function (response) {
+            if (response.status != "connected") {
                 myApp.loginScreen("#LoginScreen", false);
-        //    }
-        //});
+            }
+        });
     };
 
     // Load the Facebook SDK
@@ -57,6 +57,7 @@ $(document).on("deviceready", function () {
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
+    
     
     // Begin the engine
     EngineUpdateRegular();
@@ -89,12 +90,111 @@ function onGeolocationFail(error) {
 function EngineUpdateRegular() {
     // (TODO: Any necessary/realtime tasks and updates. For example, update
     // matches and conversations.)
+    
+
 
     // If the chat page has loaded yet, make sure it is showing the latest
     // messages for the conversation it is currently responsible for
-    if (typeof chat_page != "undefined") {
-        chat_page.LoadAndParseMessages(chat_page.id, true);
-    }
+    //if (typeof chat_page != "undefined") {
+    //    chat_page.LoadAndParseMessages(chat_page.id, true);
+    //}
+
+
+
+    var MatchesIDs = [];
+    var MatchesParticipants = [];
+    var MatchesArray = [];
+    var MessagesArray = [];
+    var MessagesID = [];
+    var MessagesAuthorID = [];
+    var MessagesMessage = [];
+    var MessagesDate = [];
+
+    //Update the Cache with all matched users
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.aktve-app.com/me/matches?token=' + APIUserToken, //Change to actual facebook token
+        dataType: 'json',
+        context: this, // Make the callaback function's `this` variable point to this User object
+        success: function (data) {
+            console.log(data);
+
+            if (data.Data.matches.length != null) {
+
+
+                for (var i = 0; i < data.Data.matches.length; i++) {
+                    MatchesIDs[i] = data.Data.matches[i].id;
+                    MatchesParticipants[i] = data.Data.matches[i].participants;
+                    console.log(MatchesIDs[i]);
+                    console.log(MatchesParticipants[i]);
+                }
+
+
+                for (var i = 0; i < MatchesIDs.length; i++) {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://api.aktve-app.com/me/matches/' + MatchesIDs[i] + '/messages?token=' + APIUserToken, //Change to actual facebook token
+                        dataType: 'json',
+                        context: this, // Make the callaback function's `this` variable point to this User object
+                        success: function (data) {
+                            console.log(data);
+
+
+                            if (data.Data.messages != null) {
+
+                                for (var i = 0; i < data.Data.messages.length; i++) {
+                                    MessagesID[i] = data.Data.messages.id[i];
+                                    MessagesAuthorID[i] = data.Data.messages.author_id[i];
+                                    MessagesMessage[i] = data.Data.messages.message[i];
+                                    MessagesDate[i] = data.Data.messages.date[i];
+                                    console.log(MessagesID[i]);
+                                    console.log(MessagesAuthorID[i]);
+                                    onsole.log(MessagesMessage[i]);
+                                    console.log(MessagesDate[i]);
+
+                                    MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i]);
+
+                                }
+
+
+
+                            }
+                        }
+                    });
+
+                }
+
+                for(var i = 0; i < data.Data.matches.length; i++)
+                {
+
+                    MatchesArray.push(new Match(MatchesIDs[i], MatchesParticipants[i]), MessagesArray[i]);
+
+                }
+
+                g_app_user._matches = MatchesArray;
+
+                console.log(g_app_user._matches);
+            }
+
+
+        }
+
+    });
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
 
     // Debug output and call this function again in 1 second
     console.log("Engine updated (regular).");
@@ -107,36 +207,7 @@ function EngineUpdateRegular() {
 function EngineUpdateSemiregular() {
     // (TODO: Any semi-regular tasks and updates.)
 
-    // Debug output and call this function again in 30 seconds
-    console.log("Engine updated (semi-regular).");
-    setTimeout(EngineUpdateSemiregular, 30000);
-}
 
-// EngineUpdateIrregular() gets called very irregularly and thus should only be
-// used to perform tasks that almost don't matter.
-function EngineUpdateIrregular() {
-    //Update Cache with any new potential users
-    if(APIUserToken == "APIKEY")
-    {
-        setTimeout(EngineUpdateIrregular, 60000);
-        return;
-    }
-
-    $.ajax({
-        type: 'GET',
-        url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //Change to actual facebook token
-        dataType: 'json',
-        context: this,
-        success: function (data) {
-          $.each(data.Data.potential_user_ids, function (key, value) { // First Level
-                                   
-                g_user_cache.RetrieveUser(value); // If any new potential users are not in the cache, put them there
-                                          
-
-                });
-           
-        }
-    });
 
     //Update the Cache with all matched users
     $.ajax({
@@ -160,38 +231,6 @@ function EngineUpdateIrregular() {
         }
     });
 
-    //Update the Cache with all matched users
-    $.ajax({
-        type: 'GET',
-        url: 'https://api.aktve-app.com/me/matches?token=' + APIUserToken, //Change to actual facebook token
-        dataType: 'json',
-        context: this, // Make the callaback function's `this` variable point to this User object
-        success: function (data) {
-            console.log(data);
-            var MatchID = data.Data.match.id;
-            var MatchParticipants = data.Data.match.participants;
-
-            $.ajax({
-                type: 'GET',
-                url: 'https://api.aktve-app.com/me/matches/' + MatchID + '/messages?token=' + APIUserToken, //Change to actual facebook token
-                dataType: 'json',
-                context: this, // Make the callaback function's `this` variable point to this User object
-                success: function (data) {
-                    console.log(data);
-                   
-                    var MessagesArray = [];
-                    $.each(data.Data, function (key, value) { 
-                        $.each(value.messages, function (k, v) {  
-                            //imagesArray.push(v);
-                        });
-                    });
-
-
-
-
-                    //g_app_user.matches.push(new Match(data.Data.match.id, ));
-                }
-            });
 
 
 
@@ -200,10 +239,40 @@ function EngineUpdateIrregular() {
 
 
 
-            g_app_user.matches.push(new Match(data.Data.match.id, ));
-        }
-    });
+    // Debug output and call this function again in 30 seconds
+    console.log("Engine updated (semi-regular).");
+    setTimeout(EngineUpdateSemiregular, 30000);
+}
 
+// EngineUpdateIrregular() gets called very irregularly and thus should only be
+// used to perform tasks that almost don't matter.
+function EngineUpdateIrregular() {
+    //Update Cache with any new potential users
+    if(APIUserToken == "APIKEY")
+    {
+        setTimeout(EngineUpdateIrregular, 60000);
+        return;
+    }
+
+    //$.ajax({
+    //    type: 'GET',
+    //    url: 'https://api.aktve-app.com/potentials' + '?token=' + APIUserToken, //Change to actual facebook token
+    //    dataType: 'json',
+    //    context: this,
+    //    success: function (data) {
+    //      $.each(data.Data.potential_user_ids, function (key, value) { // First Level
+                                   
+    //            g_user_cache.RetrieveUser(value); // If any new potential users are not in the cache, put them there
+                                          
+
+    //            });
+           
+    //    }
+    //});
+
+    
+
+    
 
 
 
