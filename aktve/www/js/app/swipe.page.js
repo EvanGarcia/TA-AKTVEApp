@@ -309,7 +309,7 @@ class SwipePage {
 let swipe_page = new SwipePage();
 let potentials = [];
 var pontentialIndex = 0;
-var clickedProf = 0;
+let clickedProf = 0;
 // Perform necessary steps once the page is loaded.
 myApp.onPageInit('swipe', function (page) {
     swipe_page.Init();

@@ -61,8 +61,10 @@ class SettingsPage {
                 $("#SettingsInterests").html(interests_string);
                 console.log(interArr);
 
+                //$("#ProfileBio").html(data.Data.user.bio); // TODO aa
             }
         });
+
     } 
 
     storeSettings() {
@@ -102,18 +104,24 @@ class SettingsPage {
             }
             console.log(interestObj);
 
+            var bio = ($("#bioId").find('textarea').val());
             if(interArr.length!=0){
             $.ajax({
                 type: 'put',
                 url: "https://api.aktve-app.com/me?token=" + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
-                data: { 'interests': interestObj },
+                data: {
+                    'interests': interestObj,
+                    'bio' : bio
+                },
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
                     console.log(data.Success.success);
                     console.log(data.Success.error);
                 }
-            });   
+            });
+            
+            console.log(bio);
         }
     }
 
