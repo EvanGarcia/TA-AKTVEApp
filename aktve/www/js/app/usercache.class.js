@@ -45,7 +45,7 @@ class UserCache {
                         });
                     });
 
-                    
+                    console.log(tagsArray);
 
 
                     var imagesArray = [];
@@ -55,7 +55,7 @@ class UserCache {
                         });
                     });
 
-                    
+                    console.log(imagesArray);
 
 
                     //Add New User to Cache
