@@ -11,6 +11,10 @@ let NewMatchCount = 0;
 
 let OldMatchCount = 0;
 
+
+let MatchesIDs = [];
+let MatchesParticipants = [];
+
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
 $(document).on("deviceready", function () {
@@ -103,8 +107,7 @@ function EngineUpdateRegular() {
 
 
 
-    var MatchesIDs = [];
-    var MatchesParticipants = [];
+    
     var MatchesArray = [];
     var MessagesArray = [];
     var MessagesID = [];
@@ -122,6 +125,7 @@ function EngineUpdateRegular() {
             console.log(data);
 
             if (data.Data.matches != null) {
+               
 
                 NewMatchCount = data.Data.matches.length;
 
@@ -152,14 +156,14 @@ function EngineUpdateRegular() {
                                 if (data.Data.messages != null) {
 
                                     for (var i = 0; i < data.Data.messages.length; i++) {
-                                        MessagesID[i] = data.Data.messages.id[i];
-                                        MessagesAuthorID[i] = data.Data.messages.author_id[i];
-                                        MessagesMessage[i] = data.Data.messages.message[i];
-                                        MessagesDate[i] = data.Data.messages.date[i];
-                                        //console.log(MessagesID[i]);
-                                        //console.log(MessagesAuthorID[i]);
-                                        //onsole.log(MessagesMessage[i]);
-                                        //console.log(MessagesDate[i]);
+                                        MessagesID[i] = data.Data.messages[i].id;
+                                        MessagesAuthorID[i] = data.Data.messages[i].author_id;
+                                        MessagesMessage[i] = data.Data.messages[i].message;
+                                        MessagesDate[i] = data.Data.messages[i].date;
+                                        console.log(MessagesID[i]);
+                                        console.log(MessagesAuthorID[i]);
+                                        console.log(MessagesMessage[i]);
+                                        console.log(MessagesDate[i]);
 
                                         MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
 
