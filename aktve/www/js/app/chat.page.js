@@ -111,7 +111,7 @@ class ChatPage {
             // page's message view if the server doesn't send it back to you as a
             // new message.)
             $.ajax({
-                type: 'post',
+                type: 'POST',
                 url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=" + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
                 data: { 'message': messageText}, 

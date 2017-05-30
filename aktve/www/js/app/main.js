@@ -11,9 +11,18 @@ let NewMatchCount = 0;
 
 let OldMatchCount = 0;
 
+let NewMessageCount = 0;
+
+let OldMessageCount = 0;
+
 
 let MatchesIDs = [];
 let MatchesParticipants = [];
+let MessagesArray = [];
+let MessagesID = [];
+let MessagesAuthorID = [];
+let MessagesMessage = [];
+let MessagesDate = [];
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
@@ -108,12 +117,7 @@ function EngineUpdateRegular() {
 
 
     
-    var MatchesArray = [];
-    var MessagesArray = [];
-    var MessagesID = [];
-    var MessagesAuthorID = [];
-    var MessagesMessage = [];
-    var MessagesDate = [];
+   
 
     //Update the Cache with all matched users
     $.ajax({
@@ -155,28 +159,37 @@ function EngineUpdateRegular() {
 
                                 if (data.Data.messages != null) {
 
-                                    for (var i = 0; i < data.Data.messages.length; i++) {
-                                        MessagesID[i] = data.Data.messages[i].id;
-                                        MessagesAuthorID[i] = data.Data.messages[i].author_id;
-                                        MessagesMessage[i] = data.Data.messages[i].message;
-                                        MessagesDate[i] = data.Data.messages[i].date;
-                                        console.log(MessagesID[i]);
-                                        console.log(MessagesAuthorID[i]);
-                                        console.log(MessagesMessage[i]);
-                                        console.log(MessagesDate[i]);
+                                    NewMessageCount = data.Data.messages.length;
 
-                                        MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
+                                    if (NewMessageCount != OldMessageCount) {
+
+                                        OldMessageCount = NewMessageCount;
+
+                                        for (var i = 0; i < data.Data.messages.length; i++) {
+                                            MessagesID[i] = data.Data.messages[i].id;
+                                            MessagesAuthorID[i] = data.Data.messages[i].author_id;
+                                            MessagesMessage[i] = data.Data.messages[i].message;
+                                            MessagesDate[i] = data.Data.messages[i].date;
+                                            console.log(MessagesID[i]);
+                                            console.log(MessagesAuthorID[i]);
+                                            console.log(MessagesMessage[i]);
+                                            console.log(MessagesDate[i]);
+
+                                            MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
+
+                                        }
+
+
 
                                     }
 
-
-
                                 }
-
                             }
                         });
 
                     }
+
+                    var MatchesArray = [];
 
                     for (var i = 0; i < data.Data.matches.length; i++) {
 
