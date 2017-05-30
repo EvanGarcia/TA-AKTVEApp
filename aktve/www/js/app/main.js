@@ -93,8 +93,8 @@ function EngineUpdateRegular() {
     
 
 
-    // If the chat page has loaded yet, make sure it is showing the latest
-    // messages for the conversation it is currently responsible for
+    // //If the chat page has loaded yet, make sure it is showing the latest
+    // //messages for the conversation it is currently responsible for
     //if (typeof chat_page != "undefined") {
     //    chat_page.LoadAndParseMessages(chat_page.id, true);
     //}
@@ -117,7 +117,7 @@ function EngineUpdateRegular() {
         dataType: 'json',
         context: this, // Make the callaback function's `this` variable point to this User object
         success: function (data) {
-            console.log(data);
+            //console.log(data);
 
             if (data.Data.matches.length != null) {
 
@@ -126,8 +126,8 @@ function EngineUpdateRegular() {
                     MatchesIDs[i] = data.Data.matches[i].id;
                     MatchesParticipants[i] = data.Data.matches[i].participants;
                     g_user_cache.RetrieveUser(data.Data.matches[i].participants[1]);
-                    console.log(MatchesIDs[i]);
-                    console.log(MatchesParticipants[i]);
+                    //console.log(MatchesIDs[i]);
+                    //console.log(MatchesParticipants[i]);
                 }
 
 
@@ -138,7 +138,7 @@ function EngineUpdateRegular() {
                         dataType: 'json',
                         context: this, // Make the callaback function's `this` variable point to this User object
                         success: function (data) {
-                            console.log(data);
+                            //console.log(data);
 
 
                             if (data.Data.messages != null) {
@@ -148,10 +148,10 @@ function EngineUpdateRegular() {
                                     MessagesAuthorID[i] = data.Data.messages.author_id[i];
                                     MessagesMessage[i] = data.Data.messages.message[i];
                                     MessagesDate[i] = data.Data.messages.date[i];
-                                    console.log(MessagesID[i]);
-                                    console.log(MessagesAuthorID[i]);
-                                    onsole.log(MessagesMessage[i]);
-                                    console.log(MessagesDate[i]);
+                                    //console.log(MessagesID[i]);
+                                    //console.log(MessagesAuthorID[i]);
+                                    //onsole.log(MessagesMessage[i]);
+                                    //console.log(MessagesDate[i]);
 
                                     MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
 
@@ -172,12 +172,12 @@ function EngineUpdateRegular() {
 
                     MatchesArray.push(new Match(MatchesIDs[i], MatchesParticipants[i], MessagesArray[i]));
 
-                    console.log(MatchesArray);
+                    //console.log(MatchesArray);
                 }
 
                 g_app_user._matches = MatchesArray;
 
-                console.log(g_app_user.matches);
+                //console.log(g_app_user.matches);
             }
 
 
