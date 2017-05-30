@@ -27,16 +27,18 @@ class ChatPage {
         // Setup a handler function for the "Send" button
         $(".messagebar .link").click($.proxy(this.handleSend, this));
 
-        //$.ajax({ //TODO: Put message data into array that will be handled.
-        //    type: 'GET',
-        //    url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APIUserToken, //
-        //    dataType: 'json',
-        //    context: this, // Make the callaback function's `this` variable point to this User object
-        //    success: function (data) {
-                
-        //    }
+        $.ajax({ //TODO: Put message data into array that will be handled.
+            type: 'GET',
+            url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APIUserToken, //
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
 
-        //});
+                console.log(data);
+                
+            }
+
+        });
     }
 
     // handleSend() is a handler for the event of sending the message
@@ -53,35 +55,43 @@ class ChatPage {
         // Cache the Match ID
         this._match_id = id;
 
-        // Parse out messages
-        for (var i = 0; i < g_app_user.matches.length; i++) {
-            if (g_app_user.matches[i].id == id) { // If this is the Match whose conversation is supposed to be displayed
-                let match = g_app_user.matches[i] // (NOTE: This is a copy. To modify the read switch of its messages, actually touch the real object.)
+        if(g_app_user.matches != null)
+        {
 
-                // Update the conversation title and profile link
-                // (TODO: Make this more robust. For example, display the names
-                // of all participants that are not the app's User.)
-                $("#PageTitle").html("Chat with " + g_user_cache.RetrieveUser(match.participants[1]).name);
-                $("#ChatProfileLink").attr("href", "profile.html?id=" + match.participants[1]);
+            // Parse out messages
+            for (var i = 0; i < g_app_user.matches.length; i++) {
+                if (g_app_user.matches[i].id == id) { // If this is the Match whose conversation is supposed to be displayed
+                    let match = g_app_user.matches[i] // (NOTE: This is a copy. To modify the read switch of its messages, actually touch the real object.)
 
-                for (var j = 0; j < g_app_user.matches[i].messages.length; j++) {
-                    let message = g_app_user.matches[i].messages[j]; // (NOTE: This is a copy. To modify the read switch, actually touch the real object.)
+                    // Update the conversation title and profile link
+                    // (TODO: Make this more robust. For example, display the names
+                    // of all participants that are not the app's User.)
+                    $("#PageTitle").html("Chat with " + g_user_cache.RetrieveUser(match.participants[1]).name);
+                    $("#ChatProfileLink").attr("href", "profile.html?id=" + match.participants[1]);
 
-                    if (!only_unread || (only_unread && message.read == false)) {
-                        // Parse out some necessary info from the message
-                        let type = (message.author == null || message.author == g_app_user.id) ? "sent" : "received";
-                        let author = (type == "sent") ? g_app_user : g_user_cache.RetrieveUser(message.author);
+                    if(g_app_user.matches[i].messages != null)
+                    {
 
-                        // Add the message to the messages list
-                        // (TODO: Make this use the actual date information from the message.)
-                        this.AddMessage(message.message, type, author.name, author.images[0], false, false);
+                    for (var j = 0; j < g_app_user.matches[i].messages.length; j++) {
+                        let message = g_app_user.matches[i].messages[j]; // (NOTE: This is a copy. To modify the read switch, actually touch the real object.)
 
-                        // Mark the message as "read"
-                        g_app_user.matches[i].messages[j].read = true;
+                        if (!only_unread || (only_unread && message.read == false)) {
+                            // Parse out some necessary info from the message
+                            let type = (message.author == null || message.author == g_app_user.id) ? "sent" : "received";
+                            let author = (type == "sent") ? g_app_user : g_user_cache.RetrieveUser(message.author);
+
+                            // Add the message to the messages list
+                            // (TODO: Make this use the actual date information from the message.)
+                            this.AddMessage(message.message, type, author.name, author.images[0], false, false);
+
+                            // Mark the message as "read"
+                            g_app_user.matches[i].messages[j].read = true;
+                        }
                     }
-                }
 
-                break;
+                    break;
+                }
+            }
             }
         }
     }
