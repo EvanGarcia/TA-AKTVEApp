@@ -9,6 +9,13 @@ class MatchesPage {
     // list on the page.
     PopulateMatchesList() {
         let html = "";
+        // No matches
+
+        if (!g_app_user.matches)
+        {
+            html = "<div class=\"card-header\">You have no matches :(</div><div class=\"card-content\"><div class=\"card-content-inner\">Swipe on more users and check back later!</div>";
+            $("#MatchesList").html(html);
+        }else{
 
         for (var i = 0; i < g_app_user.matches.length; i++) {
             let match = g_app_user.matches[i];
@@ -36,6 +43,7 @@ class MatchesPage {
         }
 
         $("#MatchesList").html(html);
+        }
     }
 }
 

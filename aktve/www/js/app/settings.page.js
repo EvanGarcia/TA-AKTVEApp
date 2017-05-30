@@ -61,8 +61,9 @@ class SettingsPage {
                 });
                 $("#SettingsInterests").html(interests_string);
                 console.log(interArr);
-
-                $("#bioId").html("<textarea placeholder=\"Bio goes here...\">" + data.Data.bio + "</textarea>"); 
+                if (data.Data.bio) {
+                    $("#bioId").html("<textarea placeholder=\"Bio goes here...\">" + data.Data.bio + "</textarea>");
+                }
             }
         });
     } 
