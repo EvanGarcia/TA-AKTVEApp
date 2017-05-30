@@ -119,7 +119,7 @@ function EngineUpdateRegular() {
         success: function (data) {
             //console.log(data);
 
-            if (data.Data.matches.length != null) {
+            if (data.Data.matches != null) {
 
 
                 for (var i = 0; i < data.Data.matches.length; i++) {
