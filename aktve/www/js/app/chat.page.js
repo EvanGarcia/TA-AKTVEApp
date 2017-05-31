@@ -114,7 +114,7 @@ class ChatPage {
                 type: 'post',
                 url: "https://api.aktve-app.com/me/matches/" + this._match_id + "/message?token=" + APIUserToken, //Change to actual facebook token
                 dataType: 'json',
-                data: { 'message': messageText}, 
+                data: { 'message': encodeURIComponent(messageText)}, 
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
                     console.log(this._match_id);
