@@ -27,18 +27,7 @@ class ChatPage {
         // Setup a handler function for the "Send" button
         $(".messagebar .link").click($.proxy(this.handleSend, this));
 
-        //$.ajax({ //TODO: Put message data into array that will be handled.
-        //    type: 'GET',
-        //    url: 'https://api.aktve-app.com/me/matches/' + this._id + '/messages?token=' + APIUserToken, //
-        //    dataType: 'json',
-        //    context: this, // Make the callaback function's `this` variable point to this User object
-        //    success: function (data) {
-
-        //        console.log(data.Data.messages);
-                
-        //    }
-
-        //});
+        
     }
 
     // handleSend() is a handler for the event of sending the message

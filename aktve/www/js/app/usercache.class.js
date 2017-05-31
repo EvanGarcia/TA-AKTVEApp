@@ -58,6 +58,11 @@ class UserCache {
                     console.log(imagesArray);
 
 
+
+
+
+
+
                     //Add New User to Cache
                     this._users[id_as_string] = new User(data.Data.user.id, data.Data.user.name, data.Data.user.age, interestsArray, tagsArray, data.Data.user.bio, imagesArray, [], data.Data.user.latitude, data.Data.user.longitude, data.Data.user.last_active );
                     

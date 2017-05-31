@@ -23,6 +23,7 @@ let MessagesID = [];
 let MessagesAuthorID = [];
 let MessagesMessage = [];
 let MessagesDate = [];
+let MatchesArray = [];
 
 // When the "deviceready" event takes place, we know all plugins have loaded
 // successfully.
@@ -126,7 +127,7 @@ function EngineUpdateRegular() {
         dataType: 'json',
         context: this, // Make the callaback function's `this` variable point to this User object
         success: function (data) {
-            console.log(data);
+            //console.log(data);
 
             if (data.Data.matches != null) {
                
@@ -154,10 +155,11 @@ function EngineUpdateRegular() {
                             dataType: 'json',
                             context: this, // Make the callaback function's `this` variable point to this User object
                             success: function (data) {
-                                //console.log(data);
+                                console.log(data);
 
 
                                 if (data.Data.messages != null) {
+                                    console.log(data.Data.messages);
 
                                     NewMessageCount = data.Data.messages.length;
 
@@ -179,7 +181,7 @@ function EngineUpdateRegular() {
 
                                         }
 
-
+                                        
 
                                     }
 
@@ -189,12 +191,12 @@ function EngineUpdateRegular() {
 
                     }
 
-                    var MatchesArray = [];
+                   
 
                     for (var i = 0; i < data.Data.matches.length; i++) {
 
 
-                        MatchesArray.push(new Match(MatchesIDs[i], MatchesParticipants[i], MessagesArray[i]));
+                        MatchesArray[i] = new Match(MatchesIDs[i], MatchesParticipants[i], MessagesArray[i]);
 
                         //console.log(MatchesArray);
                     }
