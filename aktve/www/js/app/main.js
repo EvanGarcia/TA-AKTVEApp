@@ -11,9 +11,9 @@ let NewMatchCount = 0;
 
 let OldMatchCount = 0;
 
-let NewMessageCount = 0;
+let NewMessageCount = [];
 
-let OldMessageCount = 0;
+let OldMessageCount = [];
 
 
 let MatchesIDs = [];
@@ -158,12 +158,12 @@ function EngineUpdateRegular() {
                                 if (data.Data.messages != null) {
                                     console.log(data.Data.messages);
 
-                                    NewMessageCount = data.Data.messages.length;
+                                    NewMessageCount[i] = data.Data.messages.length;
 
                                     //If no new messages, don't execute code
-                                    if (NewMessageCount != OldMessageCount) {
+                                    if (NewMessageCount[i] != OldMessageCount[i]) {
 
-                                        OldMessageCount = NewMessageCount;
+                                        OldMessageCount[i] = NewMessageCount[i];
                                         MessagesArray[i] = [];
 
                                         //Get message data, and put messages into array for each match
@@ -185,6 +185,7 @@ function EngineUpdateRegular() {
                                         //Clean messages each time we get a new message, need to fix this when finish final chat
 
                                         if (typeof chat_page != "undefined" && chat_page.messages != null) {
+                                            console.log("called");
                                             chat_page.messages.clean();
                                         }
                                     }
