@@ -36,11 +36,11 @@ class Message {
         this._message = message;
     }
 
-    get date() {
-        let date = (this._date.getMonth() + 1) + "/" + this._date.getDate() + "/" + this._date.getFullYear() + " @ " + this._date.getHours() + ":" + this._date.getMinutes();
+    //get date() {
+    //    let date = (this._date.getMonth() + 1) + "/" + this._date.getDate() + "/" + this._date.getFullYear() + " @ " + this._date.getHours() + ":" + this._date.getMinutes();
 
-        return date;
-    }
+    //    return date;
+    //}
 
     get read() {
         return this._read;
