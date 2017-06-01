@@ -29,9 +29,9 @@ class MatchesPage {
             html += "\t\t<div class=\"item-inner\">\n";
             html += "\t\t\t<div class=\"item-title-row\">\n";
             html += "\t\t\t\t<div class=\"item-title\">" + other_user.name + "</div>\n";
-            if (match.messages != null) {
-                html += "\t\t\t\t<div class=\"item-after\">" + ((match.messages.length > 0) ? match.messages[match.messages.length - 1].date : "") + "</div>\n";
-            }
+            //if (match.messages != null) {
+            //    html += "\t\t\t\t<div class=\"item-after\">" + ((match.messages.length > 0) ? match.messages[match.messages.length - 1].date : "") + "</div>\n";
+            //}
             html += "\t\t\t</div>\n";
             if (match.messages != null) {
                 html += "\t\t\t\t<div class=\"item-after\">" + ((match.messages.length > 0) ? match.messages[match.messages.length - 1].message : "") + "</div>\n";

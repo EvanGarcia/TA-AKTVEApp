@@ -108,16 +108,6 @@ function EngineUpdateRegular() {
     // matches and conversations.)
     
 
-
-    // //If the chat page has loaded yet, make sure it is showing the latest
-    // //messages for the conversation it is currently responsible for
-    //if (typeof chat_page != "undefined") {
-    //    chat_page.LoadAndParseMessages(chat_page.id, true);
-    //}
-
-
-
-    
    
 
     //Update the Cache with all matched users
@@ -129,15 +119,22 @@ function EngineUpdateRegular() {
         success: function (data) {
             //console.log(data);
 
+            //If no matches, do not execute code
+
             if (data.Data.matches != null) {
                
 
                 NewMatchCount = data.Data.matches.length;
 
+
+                //If no new matches, do not execute code
                 if (NewMatchCount != OldMatchCount) {
 
                     OldMatchCount = NewMatchCount;
                     console.log("show up");
+
+
+                    //Put matches in cache, and get match data
                     for (var i = 0; i < data.Data.matches.length; i++) {
                         MatchesIDs[i] = data.Data.matches[i].id;
                         MatchesParticipants[i] = data.Data.matches[i].participants;
@@ -157,17 +154,19 @@ function EngineUpdateRegular() {
                             success: function (data) {
                                 console.log(data);
 
-
+                                //If no messages, don't execute code
                                 if (data.Data.messages != null) {
                                     console.log(data.Data.messages);
 
                                     NewMessageCount = data.Data.messages.length;
 
+                                    //If no new messages, don't execute code
                                     if (NewMessageCount != OldMessageCount) {
 
                                         OldMessageCount = NewMessageCount;
                                         MessagesArray[i] = [];
 
+                                        //Get message data, and put messages into array for each match
                                         for (var j = 0; j < data.Data.messages.length; j++) {
                                             MessagesID[j] = data.Data.messages[j].id;
                                             MessagesAuthorID[j] = data.Data.messages[j].author_id;
@@ -178,13 +177,16 @@ function EngineUpdateRegular() {
                                             console.log(MessagesMessage[j]);
                                             console.log(MessagesDate[j]);
 
-                                            MessagesArray[i].push(new Message(MessagesID[j], MessagesAuthorID[j], decodeURI(MessagesMessage[j]), MessagesDate[j], false));
+                                            MessagesArray[i].push(new Message(MessagesID[j], MessagesAuthorID[j], decodeURIComponent(MessagesMessage[j]), MessagesDate[j], false));
                                             
 
                                         }
 
-                                        
+                                        //Clean messages each time we get a new message, need to fix this when finish final chat
 
+                                        if (typeof chat_page != "undefined" && chat_page.messages != null) {
+                                            chat_page.messages.clean();
+                                        }
                                     }
 
                                 }
@@ -197,6 +199,7 @@ function EngineUpdateRegular() {
 
                    
 
+                    // Add matches into array
                     for (var i = 0; i < data.Data.matches.length; i++) {
 
 
@@ -205,8 +208,15 @@ function EngineUpdateRegular() {
                         console.log(MatchesArray);
                     }
 
+                    //Set user's matches
                     g_app_user._matches = MatchesArray;
 
+                    //If the chat page has loaded yet, make sure it is showing the latest
+                    //messages for the conversation it is currently responsible for
+                    if (typeof chat_page != "undefined") {
+                        chat_page.LoadAndParseMessages(chat_page.id, true);
+                    }
+                    
                     console.log(g_app_user.matches);
                 
             }
@@ -317,6 +327,7 @@ function statusChangeCallback(response) {
         var dataForPost = "fb_userid=" + FBUserID + "&fb_access_token=" + fb_access_token;
         console.log(dataForPost);
 
+      //Log user into app
       $.ajax({
           type: 'POST',
           url: "https://api.aktve-app.com/login",
