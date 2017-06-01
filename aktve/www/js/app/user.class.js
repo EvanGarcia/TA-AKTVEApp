@@ -62,7 +62,7 @@ class User {
                     this._images = imagesArray;
 
                 }
-
+                
             });
 
           

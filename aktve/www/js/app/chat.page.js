@@ -52,6 +52,7 @@ class ChatPage {
                 if (g_app_user.matches[i].id == id) { // If this is the Match whose conversation is supposed to be displayed
                     let match = g_app_user.matches[i] // (NOTE: This is a copy. To modify the read switch of its messages, actually touch the real object.)
 
+                    console.log(match);
                     // Update the conversation title and profile link
                     // (TODO: Make this more robust. For example, display the names
                     // of all participants that are not the app's User.)
@@ -60,6 +61,7 @@ class ChatPage {
 
                     if(g_app_user.matches[i].messages != null)
                     {
+
 
                     for (var j = 0; j < g_app_user.matches[i].messages.length; j++) {
                         let message = g_app_user.matches[i].messages[j]; // (NOTE: This is a copy. To modify the read switch, actually touch the real object.)
