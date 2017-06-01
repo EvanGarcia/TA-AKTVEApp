@@ -44,6 +44,8 @@ class ChatPage {
         // Cache the Match ID
         this._match_id = id;
 
+        
+
         if(g_app_user.matches != null)
         {
 
@@ -73,7 +75,8 @@ class ChatPage {
 
                             // Add the message to the messages list
                             // (TODO: Make this use the actual date information from the message.)
-                            this.AddMessage(message.message, type, author.name, author.images[0], false, false);
+                            
+                            this.AddMessage(message.message, type, author.name, false, false);
 
                             // Mark the message as "read"
                             g_app_user.matches[i].messages[j].read = true;
@@ -123,7 +126,7 @@ class ChatPage {
         this.messages.addMessage({
             text: message,
             type: type,
-            avatar: avatar,
+            //avatar: avatar,    Get working for final and add back into add message function call above
             name: name,
             day: day,
             time: time
