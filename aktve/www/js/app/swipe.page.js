@@ -87,20 +87,22 @@ class SwipePage {
                         $("#ProfileInterests").html(interests_string);
 
                         let tags_string = "";
-                        for (var i = 0; i < data.Data.user.tags.length; i++) {
-                            if (data.Data.user.tags[i] == "friends_men" || data.Data.user.tags[i] == "friends_women") { // If the tag is a "friend" tag
-                                tags_string += "<div class=\"chip bg-blue\">\n";
-                                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
-                                tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
-                                tags_string += "</div>\n";
+                        if (data.Data.user.tags){
+                            for (var i = 0; i < data.Data.user.tags.length; i++) {
+                                if (data.Data.user.tags[i] == "friends_men" || data.Data.user.tags[i] == "friends_women") { // If the tag is a "friend" tag
+                                    tags_string += "<div class=\"chip bg-blue\">\n";
+                                    tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
+                                    tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                                    tags_string += "</div>\n";
+                                }
+                                else if (data.Data.user.tags[i] == "dates_men" || data.Data.user.tags[i] == "dates_women") { // If the tag is a "date" tag
+                                    tags_string += "<div class=\"chip bg-red\">\n";
+                                    tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
+                                    tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                                    tags_string += "</div>\n";
+                                }
                             }
-                            else if (data.Data.user.tags[i] == "dates_men" || data.Data.user.tags[i] == "dates_women") { // If the tag is a "date" tag
-                                tags_string += "<div class=\"chip bg-red\">\n";
-                                tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
-                                tags_string += "\t<div class=\"chip-label\">" + ((data.Data.user.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
-                                tags_string += "</div>\n";
-                            }
-                        }
+                    }
                         $("#ProfileTags").html(tags_string);
 
                         var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + data.Data.user.latitude + "," + data.Data.user.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + data.Data.user.latitude + "," + data.Data.user.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;
@@ -117,7 +119,11 @@ class SwipePage {
             dataType: 'json',
             context: this, // Make the callaback function's `this` variable point to this User object
             success: function (data) {
-                potentials = data.Data.potential_user_ids;
+                if (!data.Data.potential_user_ids) {
+                    potentials[0] = -1;
+                }else{
+                    potentials = data.Data.potential_user_ids;
+                }
             },
             async: false
         });
@@ -152,8 +158,7 @@ class SwipePage {
                     });
                     $("#SwipeDetails").html("");
 
-                    if (data.Data.user.tags != null) {
-
+                    if (data.Data.user.tags){
                         for (var i = 0; i < data.Data.user.tags.length; i++) {
                             if (data.Data.user.tags[i] == "friends_men") {
                                 document.getElementById("SwipeDetails").
@@ -169,6 +174,7 @@ class SwipePage {
                             innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
                             }
                         }
+
                     }
                 }
             }
@@ -218,23 +224,23 @@ class SwipePage {
                         });
                     });
                     $("#SwipeDetails").html("");
-
-                    for (var i = 0; i < data.Data.user.tags.length; i++) {
-                        if (data.Data.user.tags[i] == "friends_men") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
-                        } else if (data.Data.user.tags[i] == "friends_women") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_women") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_men") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                    if (data.Data.user.tags) {
+                        for (var i = 0; i < data.Data.user.tags.length; i++) {
+                            if (data.Data.user.tags[i] == "friends_men") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                            } else if (data.Data.user.tags[i] == "friends_women") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
+                            } else if (data.Data.user.tags[i] == "dates_women") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
+                            } else if (data.Data.user.tags[i] == "dates_men") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                            }
                         }
                     }
-
                 }
             }
         });
@@ -283,23 +289,23 @@ class SwipePage {
                     });
                     $("#SwipeDetails").html("");
 
-
-                    for (var i = 0; i < data.Data.user.tags.length; i++) {
-                        if (data.Data.user.tags[i] == "friends_men") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
-                        } else if (data.Data.user.tags[i] == "friends_women") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_women") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
-                        } else if (data.Data.user.tags[i] == "dates_men") {
-                            document.getElementById("SwipeDetails").
-                        innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                    if (data.Data.user.tags) {
+                        for (var i = 0; i < data.Data.user.tags.length; i++) {
+                            if (data.Data.user.tags[i] == "friends_men") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                            } else if (data.Data.user.tags[i] == "friends_women") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-blue\">\n<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
+                            } else if (data.Data.user.tags[i] == "dates_women") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Women</div></div>"
+                            } else if (data.Data.user.tags[i] == "dates_men") {
+                                document.getElementById("SwipeDetails").
+                            innerHTML += "<div class=\"chip bg-red\">\n<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div><div class=\"chip-label\">Men</div></div>"
+                            }
                         }
                     }
-
                 }
             }
         });

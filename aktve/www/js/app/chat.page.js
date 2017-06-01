@@ -126,6 +126,7 @@ class ChatPage {
                                     $("#ProfileBio").html(data.Data.user.bio);
 
                                     let interests_string = "";
+
                                     $.each(data.Data, function (key, value) { // First Level
                                         $.each(value.interests, function (k, v) {  // The contents inside stars
                                             interests_string += "<div class=\"chip\">\n";
@@ -134,9 +135,11 @@ class ChatPage {
                                             interests_string += "</div>\n";
                                         });
                                     });
+
                                     $("#ProfileInterests").html(interests_string);
 
                                     let tags_string = "";
+                                    if (data.Data.user.tags) {
                                     for (var i = 0; i < data.Data.user.tags.length; i++) {
                                         if (data.Data.user.tags[i] == "friends_men" || data.Data.user.tags[i] == "friends_women") { // If the tag is a "friend" tag
                                             tags_string += "<div class=\"chip bg-blue\">\n";
@@ -151,6 +154,7 @@ class ChatPage {
                                             tags_string += "</div>\n";
                                         }
                                     }
+                                }
                                     $("#ProfileTags").html(tags_string);
 
                                     var google_map_url = "https://maps.googleapis.com/maps/api/staticmap?center=" + data.Data.user.latitude + "," + data.Data.user.longitude + "&zoom=13&size=400x200&maptype=roadmap&markers=color:black%7C" + data.Data.user.latitude + "," + data.Data.user.longitude + "&" + GOOGLE_STATIC_MAPS_API_KEY;

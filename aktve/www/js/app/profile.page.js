@@ -70,19 +70,21 @@ class ProfilePage {
                     $("#ProfileInterests").html(interests_string);
                     console.log(data.Data);
 
-                let tags_string = "";
-                for (var i = 0; i < data.Data.tags.length; i++) {
-                    if (data.Data.tags[i] == "friends_men" || data.Data.tags[i] == "friends_women") { // If the tag is a "friend" tag
-                        tags_string += "<div class=\"chip bg-blue\">\n";
-                        tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
-                        tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
-                        tags_string += "</div>\n";
-                    }
-                    else if (data.Data.tags[i] == "dates_men" || data.Data.tags[i] == "dates_women") { // If the tag is a "date" tag
-                        tags_string += "<div class=\"chip bg-red\">\n";
-                        tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
-                        tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
-                        tags_string += "</div>\n";
+                    let tags_string = "";
+                    if (data.Data.tags) {
+                    for (var i = 0; i < data.Data.tags.length; i++) {
+                        if (data.Data.tags[i] == "friends_men" || data.Data.tags[i] == "friends_women") { // If the tag is a "friend" tag
+                            tags_string += "<div class=\"chip bg-blue\">\n";
+                            tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-hand-peace-o\" aria-hidden=\"true\"></i></div>\n";
+                            tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                            tags_string += "</div>\n";
+                        }
+                        else if (data.Data.tags[i] == "dates_men" || data.Data.tags[i] == "dates_women") { // If the tag is a "date" tag
+                            tags_string += "<div class=\"chip bg-red\">\n";
+                            tags_string += "\t<div class=\"chip-media\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i></div>\n";
+                            tags_string += "\t<div class=\"chip-label\">" + ((data.Data.tags[i] == "friends_men") ? "Men" : "Women") + "</div>\n";
+                            tags_string += "</div>\n";
+                        }
                     }
                 }
                 $("#ProfileTags").html(tags_string);
