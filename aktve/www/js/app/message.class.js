@@ -36,6 +36,7 @@ class Message {
         this._message = message;
     }
 
+    //Isn't working right now. Fix for final.
     //get date() {
     //    let date = (this._date.getMonth() + 1) + "/" + this._date.getDate() + "/" + this._date.getFullYear() + " @ " + this._date.getHours() + ":" + this._date.getMinutes();
 
