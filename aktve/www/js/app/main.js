@@ -166,18 +166,20 @@ function EngineUpdateRegular() {
                                     if (NewMessageCount != OldMessageCount) {
 
                                         OldMessageCount = NewMessageCount;
+                                        MessagesArray[i] = [];
 
-                                        for (var i = 0; i < data.Data.messages.length; i++) {
-                                            MessagesID[i] = data.Data.messages[i].id;
-                                            MessagesAuthorID[i] = data.Data.messages[i].author_id;
-                                            MessagesMessage[i] = data.Data.messages[i].message;
-                                            MessagesDate[i] = data.Data.messages[i].date;
-                                            console.log(MessagesID[i]);
-                                            console.log(MessagesAuthorID[i]);
-                                            console.log(MessagesMessage[i]);
-                                            console.log(MessagesDate[i]);
+                                        for (var j = 0; j < data.Data.messages.length; j++) {
+                                            MessagesID[j] = data.Data.messages[j].id;
+                                            MessagesAuthorID[j] = data.Data.messages[j].author_id;
+                                            MessagesMessage[j] = data.Data.messages[j].message;
+                                            MessagesDate[j] = data.Data.messages[j].date;
+                                            console.log(MessagesID[j]);
+                                            console.log(MessagesAuthorID[j]);
+                                            console.log(MessagesMessage[j]);
+                                            console.log(MessagesDate[j]);
 
-                                            MessagesArray[i] = new Message(MessagesID[i], MessagesAuthorID[i], MessagesMessage[i], MessagesDate[i], false);
+                                            MessagesArray[i].push(new Message(MessagesID[j], MessagesAuthorID[j], decodeURI(MessagesMessage[j]), MessagesDate[j], false));
+                                            
 
                                         }
 
@@ -186,7 +188,9 @@ function EngineUpdateRegular() {
                                     }
 
                                 }
-                            }
+                            },
+                            async:false
+                       
                         });
 
                     }
@@ -198,16 +202,17 @@ function EngineUpdateRegular() {
 
                         MatchesArray[i] = new Match(MatchesIDs[i], MatchesParticipants[i], MessagesArray[i]);
 
-                        //console.log(MatchesArray);
+                        console.log(MatchesArray);
                     }
 
                     g_app_user._matches = MatchesArray;
 
-                    //console.log(g_app_user.matches);
+                    console.log(g_app_user.matches);
                 
             }
 
-        }
+        },
+        async:false
 
     });
 
