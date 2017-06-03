@@ -1,12 +1,11 @@
 // SwipePage is the class representing the model and implementing the controller
 // functions for the "swipe" page.
+
 // DUE TO SCOPING issues, the code inside each handle function is duplicated - Inside handlelike and handledislike cannot access outside  
 class SwipePage {
 
     Init() {
         // Create some events to process user interaction
-        // (TODO: Add in touch/swipe events that call these same functions. jQuery
-        // makes this very easy.)
 
         $("#SwipeLikeButton").click(swipe_page.handleLike);
         $("#SwipeDislikeButton").click(swipe_page.handleDislike);
@@ -32,6 +31,7 @@ class SwipePage {
                             dataType: 'json',
                             context: this, // Make the callaback function's `this` variable point to this User object
                             success: function (data) {
+                                // Distance away formula
                                 console.log(data);
                                 var R = 3959; // in miles
                                 let y1 = data.Data.latitude;
@@ -51,6 +51,7 @@ class SwipePage {
                             }
                         });
 
+                        // Handle Pictures
                         let pictures_string = "";
                         pictures_string += "<div class=\"swiper-wrapper\" id=\"ProfilePictures\">";
                         for (var i = 0; i < data.Data.user.images.length; i++) {
@@ -75,6 +76,7 @@ class SwipePage {
                         $("#ProfileLastActive").html("Seen " + data.Data.user.last_active);
                         $("#ProfileBio").html(data.Data.user.bio);
 
+                        // Handle Interests
                         let interests_string = "";
                         $.each(data.Data, function (key, value) { // First Level
                             $.each(value.interests, function (k, v) {  // The contents inside stars
@@ -85,7 +87,7 @@ class SwipePage {
                             });
                         });
                         $("#ProfileInterests").html(interests_string);
-
+                        // Handle male/female tags
                         let tags_string = "";
                         if (data.Data.user.tags){
                             for (var i = 0; i < data.Data.user.tags.length; i++) {
@@ -129,7 +131,7 @@ class SwipePage {
         });
 
         console.log(potentials);
-
+        // Get first user on the stack
         $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/users/' + potentials[0] + '?token=' + APIUserToken, //Change to actual facebook token
@@ -149,7 +151,7 @@ class SwipePage {
                     $("#userName").html(data.Data.user.name + ", " + data.Data.user.age);
                     $("#lastAct").html("Last Active: " + new Date(data.Data.user.last_active));
                     $("#SwipeInterests").html("");
-
+                    // Parse interests
                     $.each(data.Data, function (key, value) { // First Level
                         $.each(value.interests, function (k, v) {  // The contents inside stars
                             document.getElementById("SwipeInterests").
@@ -157,7 +159,7 @@ class SwipePage {
                         });
                     });
                     $("#SwipeDetails").html("");
-
+                    // Parse tags
                     if (data.Data.user.tags){
                         for (var i = 0; i < data.Data.user.tags.length; i++) {
                             if (data.Data.user.tags[i] == "friends_men") {
