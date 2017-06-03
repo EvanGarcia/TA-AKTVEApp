@@ -132,6 +132,7 @@ function EngineUpdateRegular() {
 
                     OldMatchCount = NewMatchCount;
                     console.log("show up");
+                    //myApp.alert('Send them a message!', 'You have a new match!');
 
 
                     //Put matches in cache, and get match data

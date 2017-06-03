@@ -5,7 +5,7 @@ class ProfilePage {
         this._user = g_app_user; // By default, make this page display the app User's profile
     }
 
-    Init() { //When the user clicks on another user in the swipe page. Bug where clicking the first time.
+    Init() { 
        
     } 
 

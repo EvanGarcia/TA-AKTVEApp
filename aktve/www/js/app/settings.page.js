@@ -6,9 +6,12 @@ class SettingsPage {
 
 
     Init() {
+
         $("#settingsback").click(settings_page.storeSettings);
         $("#addInterest").click(settings_page.addInterest);
         $("#LogoutButton").click(settings_page.logoutHelp);
+        $("#ClearInterest").click(settings_page.clearHelp);
+        $("#DeleteButton").click(settings_page.deleteHelp);
         
         $.ajax({
             type: 'GET',
@@ -21,7 +24,9 @@ class SettingsPage {
                 console.log(data.Data.sharelocation);
                 console.log(data.Data.friendmen);
                 console.log(data.Data.friendwomen);
-                if(data.Data.sharelocation)
+
+                // Handling for the switches on the settings page
+                if (data.Data.sharelocation)
                 {
                     $("#locationsharing").prop('checked',true)
                 }
@@ -42,6 +47,7 @@ class SettingsPage {
             }
         });
 
+        // Load users interests
         $.ajax({
             type: 'GET',
             url: 'https://api.aktve-app.com/me?token=' + APIUserToken, 
@@ -68,6 +74,7 @@ class SettingsPage {
         });
     } 
 
+    // Function that store the settings when the user clicks back
     storeSettings() {
 
         var locisChecked = $("#locationsharing").prop("checked");
@@ -96,9 +103,12 @@ class SettingsPage {
                 success: function (data) {
                     console.log(data.Success.success);
                     console.log(data.Success.error);
-                }
+                },
+                async: false
+                
             });
 
+            // Make user interest array compatible for put request
             var interestObj = "{";
             for (var i = 0; i < interArr.length; i++) {
                 interestObj += "\"";
@@ -114,7 +124,7 @@ class SettingsPage {
             console.log(interestObj);
 
             var bio = ($("#bioId").find('textarea').val());
-
+            // Put interests
             $.ajax({
                 type: 'put',
                 url: "https://api.aktve-app.com/me?token=" + APIUserToken + "&interests=" + interestObj + "&bio=" + bio, //Change to actual facebook token
@@ -122,11 +132,13 @@ class SettingsPage {
                 context: this, // Make the callaback function's `this` variable point to this User object
                 success: function (data) {
                     console.log(data);
-                }
+                },
+                async: false
             });
             
             console.log(bio);
     }
+
     // TODO: Remove interests from the server and UI when X is clicked
     addInterest() {
         interArr.push($("#activityName").find("option:selected").text());
@@ -140,17 +152,40 @@ class SettingsPage {
         $("#SettingsInterests").html(newInterest);
     }
 
+    // Helper to logout user
     logoutHelp() {
-        fbLogoutUser()
+        fbLogoutUser();
     }
+    // Helper to clear user interests
+    clearHelp() {
+        interArr = [];
+        skillArr = [];
+        $("#SettingsInterests").html("");
+    }
+
+    // Helper to delete user account
+    deleteHelp() {
+        $.ajax({
+            type: 'delete',
+            url: "https://api.aktve-app.com/me?token=" + APIUserToken, //Change to actual facebook token
+            dataType: 'json',
+            context: this, // Make the callaback function's `this` variable point to this User object
+            success: function (data) {
+                fbLogoutUser();
+            }
+        });
+    }
+
 }
+
+
 
 // Instantiate a model/controller for the page
 let settings_page = new SettingsPage();
-let interArr = [];
-let skillArr = [];
-// Perform necessary steps once the page is loaded.
-myApp.onPageInit('settings', function (page) {
-    settings_page.Init();
+        let interArr = [];
+        let skillArr = [];
+        // Perform necessary steps once the page is loaded.
+        myApp.onPageInit('settings', function (page) {
+            settings_page.Init();
 
-});
+        });
