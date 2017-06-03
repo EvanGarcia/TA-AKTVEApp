@@ -126,6 +126,7 @@ class SwipePage {
                 }else{
                     potentials = data.Data.potential_user_ids;
                 }
+                pontentialIndex = 0; 
             },
             async: false
         });
